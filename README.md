@@ -48,7 +48,7 @@ Wait for approval of the Pull Request and merge the change.
 ## Support
 
 For general questions or issues about tool development, please open an issue
-on our [issues](https://github.com/datacommonsorg/issues) page. For all
+on our [issues](https://github.com/datacommonsorg/reconciliation/issues) page. For all
 other questions, please send an email to `support@datacommons.org`.
 
 **Note** - This is not an officially supported Google product.
