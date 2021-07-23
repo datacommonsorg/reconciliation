@@ -16,15 +16,15 @@ Apache 2.0
 
 ### GitHub Development Process
 
-In https://github.com/datacommonsorg/import, click on "Fork" button to fork the
+In https://github.com/datacommonsorg/reconciliation, click on "Fork" button to fork the
 repo.
 
 Clone your forked repo to your desktop.
 
-Add datacommonsorg/import repo as a remote:
+Add datacommonsorg/reconciliation repo as a remote:
 
 ```shell
-git remote add dc https://github.com/datacommonsorg/import.git
+git remote add dc https://github.com/datacommonsorg/reconciliation.git
 ```
 
 Every time when you want to send a Pull Request, do the following steps:
@@ -48,7 +48,7 @@ Wait for approval of the Pull Request and merge the change.
 ## Support
 
 For general questions or issues about tool development, please open an issue
-on our [issues](https://github.com/datacommonsorg/import/issues) page. For all
+on our [issues](https://github.com/datacommonsorg/reconciliation/issues) page. For all
 other questions, please send an email to `support@datacommons.org`.
 
 **Note** - This is not an officially supported Google product.
