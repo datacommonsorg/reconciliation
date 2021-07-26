@@ -30,8 +30,8 @@ git remote add dc https://github.com/datacommonsorg/reconciliation.git
 Every time when you want to send a Pull Request, do the following steps:
 
 ```shell
-git checkout main
-git pull dc main
+git checkout master
+git pull dc master
 git checkout -b new_branch_name
 # Make some code change
 git add .
