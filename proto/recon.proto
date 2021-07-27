@@ -1,0 +1,102 @@
+// Copyright 2021 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+// Use relative go package so the generated file is in the current folder.
+option go_package = "./proto";
+package datacommons;
+
+import "google/api/annotations.proto";
+
+message Entity {
+  message Triple {
+    message TypedValue {
+      enum Type {
+        UNKNOWN_TYPE = 0;
+        NUMBER = 1;
+        STRING = 2;
+        BOOLEAN = 3;
+      }
+      Type type = 1;
+      string value = 2;
+    }
+    string subject_id = 1;
+    string predicate = 2;
+    string object_id = 3;
+    TypedValue object_value = 4;
+  }
+  string source_id = 1;
+  repeated Triple triples = 2;
+}
+
+message EntityPair {
+  // Must have two entities.
+  repeated Entity entities = 1;
+}
+
+message CompareEntitiesRequest {
+  repeated EntityPair entity_pairs = 1;
+}
+
+message CompareEntitiesResponse {
+  message Comparison {
+    // Must have two source_ids, one for each entity.
+    repeated string source_ids = 1;
+    double probability = 2;
+  }
+  repeated Comparison comparisons = 1;
+}
+
+message ResolveEntitiesRequest {
+  repeated Entity entities = 1;
+  // The types of IDs to find. If empty, all known IDs are returned.
+  repeated string wanted_id_types = 2;
+}
+
+message ResolveEntitiesResponse {
+  message ResolvedId {
+    message TypedId {
+      string id_type = 1;
+      string id = 2;
+    }
+    repeated TypedId typed_ids = 1;
+    double probability = 2;
+  }
+  message ResolvedEntity {
+    string source_id = 1;
+    repeated ResolvedId resolved_ids = 2;
+  }
+  repeated ResolvedEntity resolved_entities = 1;
+}
+
+service Recon {
+  // Compare two entities to determine if they are the same entity.
+  rpc CompareEntities(CompareEntitiesRequest)
+  returns (CompareEntitiesResponse) {
+    option (google.api.http) = {
+      post: "/compare-entities"
+      body: "*"
+    };
+  }
+
+  // Resolve a list of entities, given their descriptions.
+  rpc ResolveEntities(ResolveEntitiesRequest) 
+  returns(ResolveEntitiesResponse) {
+    option (google.api.http) = {
+      post: "/resolve-entities"
+      body: "*"
+    }; 
+  }
+}
