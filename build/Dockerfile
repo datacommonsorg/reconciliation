@@ -36,7 +36,8 @@ RUN go get google.golang.org/grpc/cmd/protoc-gen-go-grpc@v0.0.0-20200824180931-4
 
 # =========  base stage ==========
 
-FROM go-protoc AS base
+# Use pre-built go-protoc image from last step.
+FROM gcr.io/datcom-ci/go-protoc:latest AS base
 WORKDIR /recon
 # Docker cache: Download modules
 COPY go.mod go.sum /recon/
