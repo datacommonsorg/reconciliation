@@ -1,0 +1,18 @@
+{
+  "resolvedEntities": [
+    {
+      "sourceId": "aaa",
+      "resolvedIds": [
+        {
+          "ids": [
+            {
+              "prop": "wikidataId",
+              "val": "Q1234"
+            }
+          ],
+          "probability": 0.58
+        }
+      ]
+    }
+  ]
+}
