@@ -12,6 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// *** IMPORTANT NOTE ***
+// Keep this in sync with the same proto in datacommonsorg/import.
+// Eventually we need to move the shared protos out to a separate repo.
+
 syntax = "proto2";
 
 package org.datacommons.proto;

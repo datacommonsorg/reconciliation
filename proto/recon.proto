@@ -23,7 +23,8 @@ import "Mcf.proto";
 
 // An entity is represented by a subgraph, which contains itself and its neighbors.
 message EntitySubGraph {
-  string node_id = 1;
+  // REQUIRED: source_id must be a key within sub_graph.nodes.
+  string source_id = 1;
   McfGraph sub_graph = 2;
 }
 
