@@ -19,7 +19,6 @@
 # base: image with Go modules download and protobuf built
 # server: image for recon server
 # test: image to run all the tests
-# golden-update: image to update golden files
 
 # =========  protoc stage ==========
 
