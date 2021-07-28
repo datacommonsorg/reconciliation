@@ -18,7 +18,9 @@
 
 syntax = "proto2";
 
-package org.datacommons.proto;
+// Use relative go package so the generated file is in the current folder.
+option go_package = "./proto";
+package datacommons;
 
 //
 // A log of import processing with details on any warnings, errors, etc.
