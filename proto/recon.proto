@@ -19,33 +19,17 @@ option go_package = "./proto";
 package datacommons;
 
 import "google/api/annotations.proto";
+import "Mcf.proto";
 
-// An entity is represented by a list of triples, which is a sub-graph
-// containing the entity, whose ID is `source_id`.
-message Entity {
-  message Triple {
-    message TypedValue {
-      enum Type {
-        UNKNOWN_TYPE = 0;
-        NUMBER = 1;
-        STRING = 2;
-        BOOLEAN = 3;
-      }
-      Type type = 1;
-      string value = 2;
-    }
-    string subject_id = 1;
-    string predicate = 2;
-    string object_id = 3;
-    TypedValue object_value = 4;
-  }
-  string source_id = 1;
-  repeated Triple triples = 2;
+// An entity is represented by a subgraph, which contains itself and its neighbors.
+message EntitySubGraph {
+  string node_id = 1;
+  McfGraph sub_graph = 2;
 }
 
 message EntityPair {
-  Entity entity_one = 1;
-  Entity entity_two = 2;
+  EntitySubGraph entity_one = 1;
+  EntitySubGraph entity_two = 2;
 }
 
 message CompareEntitiesRequest {
@@ -62,18 +46,18 @@ message CompareEntitiesResponse {
 }
 
 message ResolveEntitiesRequest {
-  repeated Entity entities = 1;
-  // The types of IDs to find. If empty, all known IDs are returned.
-  repeated string wanted_id_types = 2;
+  repeated EntitySubGraph entities = 1;
+  // The properties of IDs to find. If empty, all known IDs are returned.
+  repeated string wanted_id_properties = 2;
 }
 
 message ResolveEntitiesResponse {
   message ResolvedId {
-    message TypedId {
-      string id_type = 1;
-      string id = 2;
+    message IdWithProperty {
+      string prop = 1;
+      string val = 2;
     }
-    repeated TypedId typed_ids = 1;
+    repeated IdWithProperty ids = 1;
     double probability = 2;
   }
   message ResolvedEntity {
