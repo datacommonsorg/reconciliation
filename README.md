@@ -16,7 +16,7 @@ Apache 2.0
 
 ### GitHub Development Process
 
-In https://github.com/datacommonsorg/reconciliation, click on "Fork" button to fork the
+In <https://github.com/datacommonsorg/reconciliation>, click on "Fork" button to fork the
 repo.
 
 Clone your forked repo to your desktop.
