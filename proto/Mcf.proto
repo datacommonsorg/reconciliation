@@ -18,7 +18,10 @@
 
 syntax = "proto2";
 
-package org.datacommons.proto;
+// Use relative go package so the generated file is in the current folder.
+option go_package = "./proto";
+package datacommons;
+
 import "Debug.proto";
 
 // Proto representation of a Data Commons sub-graph which may be made of instance nodes (INSTANCE_MCF)
