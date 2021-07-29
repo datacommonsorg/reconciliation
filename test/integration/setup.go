@@ -74,15 +74,14 @@ func newClient(
 	if err != nil {
 		return nil, err
 	}
-	// Start mixer at localhost:0
+	// Start recon at localhost:0.
 	go func() {
-		err := srv.Serve(lis)
-		if err != nil {
-			log.Fatalf("failed to start mixer in localhost:0")
+		if err := srv.Serve(lis); err != nil {
+			log.Fatalf("failed to start recon in localhost:0")
 		}
 	}()
 
-	// Create mixer client
+	// Create recon client.
 	conn, err := grpc.Dial(
 		lis.Addr().String(),
 		grpc.WithInsecure(),

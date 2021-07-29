@@ -40,6 +40,7 @@ func TestResolveEntities(t *testing.T) {
 		req        *pb.ResolveEntitiesRequest
 		goldenFile string
 	}{
+		// TODO(spaceenter): Add real test case.
 		{
 			&pb.ResolveEntitiesRequest{},
 			"result.json",

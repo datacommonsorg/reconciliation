@@ -40,6 +40,7 @@ func TestCompareEntities(t *testing.T) {
 		req        *pb.CompareEntitiesRequest
 		goldenFile string
 	}{
+		// TODO(spaceenter): Add real test case.
 		{
 			&pb.CompareEntitiesRequest{},
 			"result.json",
