@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// TODO(spaceenter): Cite this from a sharable repo as a lib.
+
 package util
 
 import (
