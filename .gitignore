@@ -44,3 +44,11 @@ Temporary Items
 
 # Downloaded tools, e.g. golangci-lint
 bin/
+
+gke/config.yaml
+gke/endpoints.yaml
+
+
+recon-grpc.*.pb
+deploy/overlays/**/endpoints.yaml
+deploy/overlays/prod/prod.yaml
