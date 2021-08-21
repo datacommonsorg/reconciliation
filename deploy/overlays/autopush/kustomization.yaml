@@ -12,14 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Kustomization for production recon running on GCP `datcom-recon-prod` project.
-# - Adds "prod" suffix to all the resources.
-# - Use replica of 16.
+# Kustomization for "autopush" recon running on GCP `datcom-recon-autopush` project.
+# - Adds "autopush" suffix to all the resources.
+# - Use replica of 10.
 
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-nameSuffix: -prod
+nameSuffix: -autopush
 
 resources:
   - ../../base
@@ -29,7 +29,7 @@ configMapGenerator:
     behavior: create
     namespace: recon
     literals:
-      - serviceName=recon.datacommons.org
+      - serviceName=autopush.recon.datacommons.org
 
 patchesStrategicMerge:
   - |-
@@ -38,7 +38,12 @@ patchesStrategicMerge:
     metadata:
       name: recon-grpc
     spec:
-      replicas: 16
+      replicas: 10
+      strategy:
+        type: RollingUpdate
+        rollingUpdate:
+          maxSurge: 3
+          maxUnavailable: 75%
   - |-
     apiVersion: extensions/v1beta1
     kind: Ingress

@@ -18,9 +18,9 @@
 #
 # Usage:
 #
-# ./deploy_key.sh <"prod"> <commit_hash>
+# ./deploy_key.sh <"prod"|"autopush"> <commit_hash>
 #
-# First argument is either "prod" or ...
+# First argument is either "prod" or "autopush"
 # (Optional) second argument is the git commit hash of the reconciliation repo.
 #
 # !!! WARNING: Run this script in a clean Git checkout at the desired commit.
