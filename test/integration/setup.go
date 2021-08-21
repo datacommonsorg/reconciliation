@@ -95,13 +95,6 @@ func newClient(
 	return client, nil
 }
 
-func updateGolden(v interface{}, root, fname string) {
-	jsonByte, _ := json.MarshalIndent(v, "", "  ")
-	if ioutil.WriteFile(path.Join(root, fname), jsonByte, 0644) != nil {
-		log.Printf("could not write golden files to %s", fname)
-	}
-}
-
 func updateProtoGolden(
 	resp protoreflect.ProtoMessage, root, fname string) {
 	var err error
