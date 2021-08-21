@@ -33,8 +33,8 @@ set -e
 
 ENV=$1
 
-if [[ $ENV != "prod" ]]; then
-  echo "First argument should be 'prod'"
+if [[ $ENV != "prod" && $ENV != "autopush" ]]; then
+  echo "First argument should be 'prod' or 'autopush'"
   exit
 fi
 
