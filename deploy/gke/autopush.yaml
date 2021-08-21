@@ -1,11 +1,10 @@
-#!/bin/bash
 # Copyright 2021 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#      http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,17 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -e
+# This is a yaml template to create gcp/gke configuration.
+# Copy this file to `config.yaml` and use that.
 
-PROJECT_ID=$(yq r config.yaml project)
-
-NAME="recon-robot"
-SERVICE_ACCOUNT="$NAME@$PROJECT_ID.iam.gserviceaccount.com"
-
-gcloud config set project $PROJECT_ID
-
-# Create service account
-gcloud iam service-accounts create $NAME
-
-# Enable service account
-gcloud alpha iam service-accounts enable $SERVICE_ACCOUNT
+project: datcom-recon-autopush
+ip: 34.149.220.31
+domain: autopush.recon.datacommons.org
+api_title: DataCommons Recon (Autopush)
+region: us-central1
+nodes: 6
+store: datcom-store
