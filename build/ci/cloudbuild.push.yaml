@@ -1,0 +1,74 @@
+# Copyright 2021 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+steps:
+  # Build protobuf and grpc descriptor
+  - id: build-proto
+    name: gcr.io/datcom-ci/go-protoc
+    entrypoint: "bash"
+    args:
+      - -c
+      - |
+        protoc \
+          --proto_path=proto \
+          --include_source_info \
+          --include_imports \
+          --descriptor_set_out recon-grpc.$SHORT_SHA.pb \
+          --go_out=internal \
+          --go-grpc_out=internal \
+          --go-grpc_opt=requireUnimplementedServers=false \
+          proto/*.proto
+
+  # Push recon server image to container registry
+  - id: push-image
+    name: gcr.io/cloud-builders/docker
+    entrypoint: "bash"
+    args:
+      - -c
+      - |
+        set -e
+        docker build -f build/Dockerfile --target server \
+          -t gcr.io/datcom-ci/datacommons-recon:$SHORT_SHA \
+          -t gcr.io/datcom-ci/datacommons-recon:latest \
+          .
+        docker push gcr.io/datcom-ci/datacommons-recon:$SHORT_SHA
+        docker push gcr.io/datcom-ci/datacommons-recon:latest
+
+  # Push the grpc descriptor to gcs.
+  - id: push-grpc-descriptor
+    name: gcr.io/cloud-builders/gsutil
+    entrypoint: "bash"
+    args:
+      - -c
+      - |
+        set -e
+        gsutil cp recon-grpc.$SHORT_SHA.pb gs://datcom-public/recon-grpc/recon-grpc.$SHORT_SHA.pb
+        gsutil cp recon-grpc.$SHORT_SHA.pb gs://datcom-public/recon-grpc/recon-grpc.latest.pb
+        gsutil acl ch -u AllUsers:R gs://datcom-public/recon-grpc/recon-grpc.$SHORT_SHA.pb
+        gsutil acl ch -u AllUsers:R gs://datcom-public/recon-grpc/recon-grpc.latest.pb
+
+  # # Update all the versions.
+  # - id: update-version
+  #   name: "gcr.io/cloud-builders/git"
+  #   entrypoint: /bin/bash
+  #   args:
+  #     - -c
+  #     - |
+  #       ./scripts/update_autopush_version.sh $SHORT_SHA
+
+options:
+  volumes:
+    - name: go-modules
+      path: /go
+  machineType: "N1_HIGHCPU_8"
