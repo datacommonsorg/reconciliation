@@ -58,14 +58,14 @@ steps:
         gsutil acl ch -u AllUsers:R gs://datcom-public/recon-grpc/recon-grpc.$SHORT_SHA.pb
         gsutil acl ch -u AllUsers:R gs://datcom-public/recon-grpc/recon-grpc.latest.pb
 
-  # # Update all the versions.
-  # - id: update-version
-  #   name: "gcr.io/cloud-builders/git"
-  #   entrypoint: /bin/bash
-  #   args:
-  #     - -c
-  #     - |
-  #       ./scripts/update_autopush_version.sh $SHORT_SHA
+  # Update all the versions.
+  - id: update-version
+    name: "gcr.io/cloud-builders/git"
+    entrypoint: /bin/bash
+    args:
+      - -c
+      - |
+        ./scripts/update_autopush_version.sh $SHORT_SHA
 
 options:
   volumes:

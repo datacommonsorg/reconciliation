@@ -12,19 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Recon Kubernetes Service config. (https://kubernetes.io/docs/concepts/services-networking/service/)
-# The service exposes the esp (on port 8081) to port 80 via NodePort.
+# This is a yaml template to create gcp/gke configuration.
+# Copy this file to `config.yaml` and use that.
 
-apiVersion: v1
-kind: Service
-metadata:
-  name: recon-service
-spec:
-  type: NodePort
-  ports:
-    - name: http
-      port: 80
-      targetPort: 8081
-      protocol: TCP
-  selector:
-    app: recon-grpc
+project: datcom-recon-autopush
+ip: 34.149.220.31
+domain: autopush.recon.datacommons.org
+api_title: DataCommons Recon (Autopush)
+region: us-central1
+nodes: 6
+store: datcom-store

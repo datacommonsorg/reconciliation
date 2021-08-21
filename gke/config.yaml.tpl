@@ -1,4 +1,4 @@
-# Copyright 2020 Google LLC
+# Copyright 2021 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,4 +22,4 @@ domain: <API_DOMAIN>
 api_title: <API_TITLE>
 region: <GKE_REGION>
 nodes: 1
-store: <BIGQUERY_PROJECT_ID>
+store: <BIGTABLE_PROJECT_ID>
