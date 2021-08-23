@@ -21,6 +21,21 @@ package datacommons;
 import "google/api/annotations.proto";
 import "Mcf.proto";
 
+// Lists of entities (with their known IDs) for a given {idProp, idVal}.
+message ReconEntities {
+  message Entity {
+    message ID {
+      string prop = 1;
+      string val = 2;
+    }
+    // All known IDs of the entity, including the DCID, excluding the ID in the
+    // recon request.
+    // NOTE: A single ID prop might be repeated.
+    repeated ID ids = 1;
+  }
+  repeated Entity entities = 1;
+}
+
 // An entity is represented by a subgraph, which contains itself and its neighbors.
 message EntitySubGraph {
   // REQUIRED: source_id must be a key within sub_graph.nodes.

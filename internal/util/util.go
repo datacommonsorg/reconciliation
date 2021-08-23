@@ -21,6 +21,8 @@ import (
 	"compress/gzip"
 	"encoding/base64"
 	"io/ioutil"
+
+	pb "github.com/datacommonsorg/reconciliation/internal/proto"
 )
 
 const (
@@ -53,4 +55,12 @@ func UnzipAndDecode(contents string) ([]byte, error) {
 		return nil, err
 	}
 	return gzResult, nil
+}
+
+func GetPropVal(node *pb.McfGraph_PropertyValues, prop string) string {
+	values, ok := (node.GetPvs())[prop]
+	if !ok {
+		return ""
+	}
+	return (values.GetTypedValues())[0].GetValue()
 }

@@ -22,6 +22,7 @@ import (
 
 	pb "github.com/datacommonsorg/reconciliation/internal/proto"
 	"github.com/google/go-cmp/cmp"
+	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/testing/protocmp"
 )
 
@@ -40,9 +41,38 @@ func TestResolveEntities(t *testing.T) {
 		req        *pb.ResolveEntitiesRequest
 		goldenFile string
 	}{
-		// TODO(spaceenter): Add real test case.
 		{
-			&pb.ResolveEntitiesRequest{},
+			&pb.ResolveEntitiesRequest{
+				Entities: []*pb.EntitySubGraph{
+					{
+						SourceId: "newId/SantaClaraCountyId",
+						SubGraph: &pb.McfGraph{
+							Nodes: map[string]*pb.McfGraph_PropertyValues{
+								"newId/SantaClaraCountyId": {
+									Pvs: map[string]*pb.McfGraph_Values{
+										"wikidataId": {
+											TypedValues: []*pb.McfGraph_TypedValue{
+												{
+													Type:  pb.ValueType_TEXT.Enum(),
+													Value: proto.String("Q110739"),
+												},
+											},
+										},
+										"newId": {
+											TypedValues: []*pb.McfGraph_TypedValue{
+												{
+													Type:  pb.ValueType_TEXT.Enum(),
+													Value: proto.String("SantaClaraCountyId"),
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
 			"result.json",
 		},
 	} {

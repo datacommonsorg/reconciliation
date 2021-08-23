@@ -1,16 +1,20 @@
 {
   "resolvedEntities": [
     {
-      "sourceId": "aaa",
+      "sourceId": "newId/SantaClaraCountyId",
       "resolvedIds": [
         {
           "ids": [
             {
-              "prop": "wikidataId",
-              "val": "Q1234"
+              "prop": "geoId",
+              "val": "06085"
+            },
+            {
+              "prop": "dcid",
+              "val": "geoId/06085"
             }
           ],
-          "probability": 0.58
+          "probability": 1
         }
       ]
     }
