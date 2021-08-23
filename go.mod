@@ -5,6 +5,7 @@ go 1.16
 require (
 	cloud.google.com/go v0.82.0
 	cloud.google.com/go/bigtable v1.10.1
+	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/go-cmp v0.5.6
 	golang.org/x/oauth2 v0.0.0-20210514164344-f6687ab2804c
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c

@@ -57,6 +57,7 @@ func UnzipAndDecode(contents string) ([]byte, error) {
 	return gzResult, nil
 }
 
+// Get the value of a given property, assuming single value.
 func GetPropVal(node *pb.McfGraph_PropertyValues, prop string) string {
 	values, ok := (node.GetPvs())[prop]
 	if !ok {
