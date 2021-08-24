@@ -16,7 +16,7 @@ import (
 var (
 	// This is a preferred list.
 	// The props ranked higher are preferred over those ranked lower for resolving.
-	supportedIDProps = []string{
+	rankedIDProps = []string{
 		"dcid",
 		"isoCode",
 		"nutsCode",
@@ -32,34 +32,31 @@ var (
 func (s *Server) ResolveEntities(ctx context.Context, in *pb.ResolveEntitiesRequest) (
 	*pb.ResolveEntitiesResponse, error) {
 	rowList := bigtable.RowList{}
-	idKey2SourceId := map[string]string{}
+	idKeyToSourceIDs := map[string][]string{}
 
-	// Collect to-be-resolved IDs to rowList and idKey2SourceId.
+	// Collect to-be-resolved IDs to rowList and idKeyToSourceID.
 	for _, entity := range in.GetEntities() {
 		node, ok := (entity.GetSubGraph().GetNodes())[entity.GetSourceId()]
 		if !ok {
 			continue
 		}
 
-		for _, idProp := range supportedIDProps {
+		for _, idProp := range rankedIDProps {
 			idVal := util.GetPropVal(node, idProp)
 			if idVal == "" {
 				continue
 			}
-
 			idKey := fmt.Sprintf("%s^%s", idProp, idVal)
-
 			rowKey := fmt.Sprintf("%s%s", util.BtReconIDMapPrefix, idKey)
 			rowList = append(rowList, rowKey)
-
-			idKey2SourceId[idKey] = entity.GetSourceId()
+			idKeyToSourceIDs[idKey] = append(idKeyToSourceIDs[idKey], entity.GetSourceId())
 		}
 	}
 
 	// Read ReconIdMap cache.
 	dataMap, err := bigTableReadRowsParallel(ctx, s.btTable, rowList,
 		func(rowKey string) (string, error) {
-			return strings.TrimLeft(rowKey, util.BtReconIDMapPrefix), nil
+			return strings.TrimPrefix(rowKey, util.BtReconIDMapPrefix), nil
 		},
 		func(dcid string, jsonRaw []byte) (interface{}, error) {
 			var reconEntities pb.ReconEntities
@@ -73,37 +70,41 @@ func (s *Server) ResolveEntities(ctx context.Context, in *pb.ResolveEntitiesRequ
 		return nil, err
 	}
 
+	// Source ID -> ID Prop -> ReconEntities.
+	reconEntityStore := map[string]map[string]*pb.ReconEntities{}
+
 	// Group resolving cache result by source ID.
-	sourceId2IdProp2ReconEntities := map[string]map[string]*pb.ReconEntities{}
 	for idKey, reconEntities := range dataMap {
 		if reconEntities == nil {
 			continue
 		}
 
-		sourceId, ok := idKey2SourceId[idKey]
+		sourceIDs, ok := idKeyToSourceIDs[idKey]
 		if !ok {
 			continue
 		}
 
 		parts := strings.Split(idKey, "^")
 		if len(parts) != 2 {
-			status.Errorf(codes.Internal, "Invalid id key %s", idKey)
+			return nil, status.Errorf(codes.Internal, "Invalid id key %s", idKey)
 		}
 		idProp := parts[0]
 
-		if _, ok := sourceId2IdProp2ReconEntities[sourceId]; !ok {
-			sourceId2IdProp2ReconEntities[sourceId] = map[string]*pb.ReconEntities{}
-		}
-		if re := reconEntities.(*pb.ReconEntities); len(re.GetEntities()) > 0 {
-			sourceId2IdProp2ReconEntities[sourceId][idProp] = re
+		for _, sourceID := range sourceIDs {
+			if _, ok := reconEntityStore[sourceID]; !ok {
+				reconEntityStore[sourceID] = map[string]*pb.ReconEntities{}
+			}
+			if re := reconEntities.(*pb.ReconEntities); len(re.GetEntities()) > 0 {
+				reconEntityStore[sourceID][idProp] = re
+			}
 		}
 	}
 
 	// Assemble response.
 	res := &pb.ResolveEntitiesResponse{}
-	for sourceId, idProp2ReconEntities := range sourceId2IdProp2ReconEntities {
+	for sourceId, idProp2ReconEntities := range reconEntityStore {
 		var reconEntities *pb.ReconEntities
-		for _, idProp := range supportedIDProps {
+		for _, idProp := range rankedIDProps {
 			if val, ok := idProp2ReconEntities[idProp]; ok {
 				reconEntities = val
 				break

@@ -44,6 +44,7 @@ func TestResolveEntities(t *testing.T) {
 		{
 			&pb.ResolveEntitiesRequest{
 				Entities: []*pb.EntitySubGraph{
+					// An entity resolved by wikidataId.
 					{
 						SourceId: "newId/SantaClaraCountyId",
 						SubGraph: &pb.McfGraph{
@@ -63,6 +64,54 @@ func TestResolveEntities(t *testing.T) {
 												{
 													Type:  pb.ValueType_TEXT.Enum(),
 													Value: proto.String("SantaClaraCountyId"),
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+					// A new entity that cannot be resolved to a DC entity.
+					{
+						SourceId: "newId/MarsPlanetId",
+						SubGraph: &pb.McfGraph{
+							Nodes: map[string]*pb.McfGraph_PropertyValues{
+								"newId/MarsPlanetId": {
+									Pvs: map[string]*pb.McfGraph_Values{
+										"planetId": {
+											TypedValues: []*pb.McfGraph_TypedValue{
+												{
+													Type:  pb.ValueType_TEXT.Enum(),
+													Value: proto.String("Mars"),
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+					// An entity with conflicting dcid and wikidataId: dcid is used for resolving.
+					{
+						SourceId: "newId/MountainViewId",
+						SubGraph: &pb.McfGraph{
+							Nodes: map[string]*pb.McfGraph_PropertyValues{
+								"newId/MountainViewId": {
+									Pvs: map[string]*pb.McfGraph_Values{
+										"dcid": {
+											TypedValues: []*pb.McfGraph_TypedValue{
+												{
+													Type:  pb.ValueType_TEXT.Enum(),
+													Value: proto.String("geoId/0649670"),
+												},
+											},
+										},
+										"wikidataId": {
+											TypedValues: []*pb.McfGraph_TypedValue{
+												{
+													Type:  pb.ValueType_TEXT.Enum(),
+													Value: proto.String("Q110739"), // Santa Clara County.
 												},
 											},
 										},

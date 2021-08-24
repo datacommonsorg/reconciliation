@@ -63,5 +63,9 @@ func GetPropVal(node *pb.McfGraph_PropertyValues, prop string) string {
 	if !ok {
 		return ""
 	}
-	return (values.GetTypedValues())[0].GetValue()
+	typedValues := values.GetTypedValues()
+	if len(typedValues) == 0 {
+		return ""
+	}
+	return typedValues[0].GetValue()
 }

@@ -17,6 +17,24 @@
           "probability": 1
         }
       ]
+    },
+    {
+      "sourceId": "newId/MountainViewId",
+      "resolvedIds": [
+        {
+          "ids": [
+            {
+              "prop": "geoId",
+              "val": "06085"
+            },
+            {
+              "prop": "dcid",
+              "val": "geoId/06085"
+            }
+          ],
+          "probability": 1
+        }
+      ]
     }
   ]
 }
