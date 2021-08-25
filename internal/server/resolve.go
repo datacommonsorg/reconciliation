@@ -18,6 +18,7 @@ var (
 	// The props ranked higher are preferred over those ranked lower for resolving.
 	rankedIDProps = []string{
 		"dcid",
+		"geoId",
 		"isoCode",
 		"nutsCode",
 		"wikidataId",
@@ -37,25 +38,44 @@ func (s *Server) ResolveEntities(ctx context.Context, in *pb.ResolveEntitiesRequ
 
 	// Collect to-be-resolved IDs to rowList and idKeyToSourceID.
 	for _, entity := range in.GetEntities() {
-		node, ok := (entity.GetSubGraph().GetNodes())[entity.GetSourceId()]
-		if !ok {
-			continue
-		}
+		sourceID := entity.GetSourceId()
 
 		// Try to resolve all the supported IDs
 		// For the resolved ones, only rely on the one ranked higher.
-		for _, idProp := range rankedIDProps {
-			idVal := util.GetPropVal(node, idProp)
-			if idVal == "" {
+		switch t := entity.GraphRepresentation.(type) {
+		case *pb.EntitySubGraph_SubGraph:
+			node, ok := (entity.GetSubGraph().GetNodes())[sourceID]
+			if !ok {
 				continue
 			}
-			idKey := fmt.Sprintf("%s^%s", idProp, idVal)
-			rowKey := fmt.Sprintf("%s%s", util.BtReconIDMapPrefix, idKey)
-			rowList = append(rowList, rowKey)
-			idKeyToSourceIDs[idKey] = append(idKeyToSourceIDs[idKey], entity.GetSourceId())
+			for _, idProp := range rankedIDProps {
+				idVal := util.GetPropVal(node, idProp)
+				if idVal == "" {
+					continue
+				}
+				idKey := fmt.Sprintf("%s^%s", idProp, idVal)
+				rowList = append(rowList, fmt.Sprintf("%s%s", util.BtReconIDMapPrefix, idKey))
+				idKeyToSourceIDs[idKey] = append(idKeyToSourceIDs[idKey], sourceID)
+			}
+		case *pb.EntitySubGraph_EntityIds:
+			idStore := map[string]string{} // Map: ID prop -> ID val.
+			for _, id := range entity.GetEntityIds().GetIds() {
+				idStore[id.GetProp()] = id.GetVal()
+			}
+			for _, idProp := range rankedIDProps {
+				idVal, ok := idStore[idProp]
+				if !ok {
+					continue
+				}
+				idKey := fmt.Sprintf("%s^%s", idProp, idVal)
+				rowList = append(rowList, fmt.Sprintf("%s%s", util.BtReconIDMapPrefix, idKey))
+				idKeyToSourceIDs[idKey] = append(idKeyToSourceIDs[idKey], sourceID)
+			}
+		default:
+			return nil, fmt.Errorf("Entity.GraphRepresentation has unexpected type %T", t)
 		}
 
-		sourceIDs[entity.GetSourceId()] = struct{}{}
+		sourceIDs[sourceID] = struct{}{}
 	}
 
 	// Read ReconIdMap cache.
@@ -132,7 +152,7 @@ func (s *Server) ResolveEntities(ctx context.Context, in *pb.ResolveEntitiesRequ
 			}
 			for _, id := range entity.GetIds() {
 				resolvedId.Ids = append(resolvedId.Ids,
-					&pb.ResolveEntitiesResponse_ResolvedId_IdWithProperty{
+					&pb.IdWithProperty{
 						Prop: id.GetProp(),
 						Val:  id.GetVal(),
 					})
