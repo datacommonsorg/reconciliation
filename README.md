@@ -45,6 +45,16 @@ steps in [contributing.md](contributing.md).
 
 Wait for approval of the Pull Request and merge the change.
 
+## Usage
+
+### ResolveEntities
+
+Example curl command:
+
+```bash
+curl -X POST https://recon.datacommons.org/entity/resolve -d '{"entities":{"source_id":"newId/SantaClaraCountyId","sub_graph":{"nodes":{"newId/SantaClaraCountyId":{"pvs":{"wikidataId":{"typed_values":{"type":"TEXT","value":"Q110739"}}}}}}}}'
+```
+
 ## Support
 
 For general questions or issues about tool development, please open an issue

@@ -22,6 +22,7 @@ import (
 
 	pb "github.com/datacommonsorg/reconciliation/internal/proto"
 	"github.com/google/go-cmp/cmp"
+	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/testing/protocmp"
 )
 
@@ -40,9 +41,88 @@ func TestResolveEntities(t *testing.T) {
 		req        *pb.ResolveEntitiesRequest
 		goldenFile string
 	}{
-		// TODO(spaceenter): Add real test case.
 		{
-			&pb.ResolveEntitiesRequest{},
+			&pb.ResolveEntitiesRequest{
+				Entities: []*pb.EntitySubGraph{
+					// An entity resolved by wikidataId.
+					{
+						SourceId: "newId/SantaClaraCountyId",
+						SubGraph: &pb.McfGraph{
+							Nodes: map[string]*pb.McfGraph_PropertyValues{
+								"newId/SantaClaraCountyId": {
+									Pvs: map[string]*pb.McfGraph_Values{
+										"wikidataId": {
+											TypedValues: []*pb.McfGraph_TypedValue{
+												{
+													Type:  pb.ValueType_TEXT.Enum(),
+													Value: proto.String("Q110739"),
+												},
+											},
+										},
+										"newId": {
+											TypedValues: []*pb.McfGraph_TypedValue{
+												{
+													Type:  pb.ValueType_TEXT.Enum(),
+													Value: proto.String("SantaClaraCountyId"),
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+					// A new entity that cannot be resolved to a DC entity.
+					{
+						SourceId: "newId/MarsPlanetId",
+						SubGraph: &pb.McfGraph{
+							Nodes: map[string]*pb.McfGraph_PropertyValues{
+								"newId/MarsPlanetId": {
+									Pvs: map[string]*pb.McfGraph_Values{
+										"planetId": {
+											TypedValues: []*pb.McfGraph_TypedValue{
+												{
+													Type:  pb.ValueType_TEXT.Enum(),
+													Value: proto.String("Mars"),
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+					// An entity with conflicting isoCode and wikidataId: isoCode is used for resolving.
+					{
+						SourceId: "newId/VietnamId",
+						SubGraph: &pb.McfGraph{
+							Nodes: map[string]*pb.McfGraph_PropertyValues{
+								"newId/VietnamId": {
+									Pvs: map[string]*pb.McfGraph_Values{
+										"isoCode": {
+											TypedValues: []*pb.McfGraph_TypedValue{
+												{
+													Type:  pb.ValueType_TEXT.Enum(),
+													Value: proto.String("VN"),
+												},
+											},
+										},
+										"wikidataId": {
+											TypedValues: []*pb.McfGraph_TypedValue{
+												{
+													Type: pb.ValueType_TEXT.Enum(),
+													// Wrong and conflicting wikidataId.
+													Value: proto.String("Q110739"),
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
 			"result.json",
 		},
 	} {

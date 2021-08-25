@@ -1,18 +1,43 @@
 {
   "resolvedEntities": [
     {
-      "sourceId": "aaa",
+      "sourceId": "newId/VietnamId",
       "resolvedIds": [
         {
           "ids": [
             {
               "prop": "wikidataId",
-              "val": "Q1234"
+              "val": "Q881"
+            },
+            {
+              "prop": "dcid",
+              "val": "country/VNM"
             }
           ],
-          "probability": 0.58
+          "probability": 1
         }
       ]
+    },
+    {
+      "sourceId": "newId/SantaClaraCountyId",
+      "resolvedIds": [
+        {
+          "ids": [
+            {
+              "prop": "geoId",
+              "val": "06085"
+            },
+            {
+              "prop": "dcid",
+              "val": "geoId/06085"
+            }
+          ],
+          "probability": 1
+        }
+      ]
+    },
+    {
+      "sourceId": "newId/MarsPlanetId"
     }
   ]
 }
