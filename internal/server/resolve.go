@@ -144,7 +144,7 @@ func (s *Server) ResolveEntities(ctx context.Context, in *pb.ResolveEntitiesRequ
 	}
 
 	// Add entities that are not resolved as empty result.
-	for sourceID, _ := range sourceIDs {
+	for sourceID := range sourceIDs {
 		if _, ok := reconEntityStore[sourceID]; ok { // Resolved.
 			continue
 		}
