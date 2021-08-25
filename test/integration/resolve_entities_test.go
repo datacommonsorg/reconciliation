@@ -92,26 +92,27 @@ func TestResolveEntities(t *testing.T) {
 							},
 						},
 					},
-					// An entity with conflicting dcid and wikidataId: dcid is used for resolving.
+					// An entity with conflicting isoCode and wikidataId: isoCode is used for resolving.
 					{
-						SourceId: "newId/MountainViewId",
+						SourceId: "newId/VietnamId",
 						SubGraph: &pb.McfGraph{
 							Nodes: map[string]*pb.McfGraph_PropertyValues{
-								"newId/MountainViewId": {
+								"newId/VietnamId": {
 									Pvs: map[string]*pb.McfGraph_Values{
-										"dcid": {
+										"isoCode": {
 											TypedValues: []*pb.McfGraph_TypedValue{
 												{
 													Type:  pb.ValueType_TEXT.Enum(),
-													Value: proto.String("geoId/0649670"),
+													Value: proto.String("VN"),
 												},
 											},
 										},
 										"wikidataId": {
 											TypedValues: []*pb.McfGraph_TypedValue{
 												{
-													Type:  pb.ValueType_TEXT.Enum(),
-													Value: proto.String("Q110739"), // Santa Clara County.
+													Type: pb.ValueType_TEXT.Enum(),
+													// Wrong and conflicting wikidataId.
+													Value: proto.String("Q110739"),
 												},
 											},
 										},
