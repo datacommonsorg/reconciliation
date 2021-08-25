@@ -49,10 +49,16 @@ Wait for approval of the Pull Request and merge the change.
 
 ### ResolveEntities
 
-Example curl command:
+Example curl command (entity described by subgraph):
 
 ```bash
-curl -X POST https://recon.datacommons.org/entity/resolve -d '{"entities":{"source_id":"newId/SantaClaraCountyId","sub_graph":{"nodes":{"newId/SantaClaraCountyId":{"pvs":{"wikidataId":{"typed_values":{"type":"TEXT","value":"Q110739"}}}}}}}}'
+curl -X POST https://autopush.recon.datacommons.org/entity/resolve -d '{"entities":{"source_id":"newId/SantaClaraCountyId","sub_graph":{"nodes":{"newId/SantaClaraCountyId":{"pvs":{"wikidataId":{"typed_values":{"type":"TEXT","value":"Q110739"}}}}}}}}'
+```
+
+Example curl command (entity described by IDs):
+
+```bash
+curl -X POST https://autopush.recon.datacommons.org/entity/resolve -d '{"entities":{"source_id":"newId/SantaClaraCountyId","entity_ids":{"ids":{"prop":"geoId","val":"06085"}}}}'
 ```
 
 ## Support
