@@ -33,6 +33,7 @@ func (s *Server) ResolveEntities(ctx context.Context, in *pb.ResolveEntitiesRequ
 	*pb.ResolveEntitiesResponse, error) {
 	rowList := bigtable.RowList{}
 	idKeyToSourceIDs := map[string][]string{}
+	sourceIDs := map[string]struct{}{}
 
 	// Collect to-be-resolved IDs to rowList and idKeyToSourceID.
 	for _, entity := range in.GetEntities() {
@@ -41,6 +42,8 @@ func (s *Server) ResolveEntities(ctx context.Context, in *pb.ResolveEntitiesRequ
 			continue
 		}
 
+		// Try to resolve all the supported IDs
+		// For the resolved ones, only rely on the one ranked higher.
 		for _, idProp := range rankedIDProps {
 			idVal := util.GetPropVal(node, idProp)
 			if idVal == "" {
@@ -51,6 +54,8 @@ func (s *Server) ResolveEntities(ctx context.Context, in *pb.ResolveEntitiesRequ
 			rowList = append(rowList, rowKey)
 			idKeyToSourceIDs[idKey] = append(idKeyToSourceIDs[idKey], entity.GetSourceId())
 		}
+
+		sourceIDs[entity.GetSourceId()] = struct{}{}
 	}
 
 	// Read ReconIdMap cache.
@@ -114,6 +119,7 @@ func (s *Server) ResolveEntities(ctx context.Context, in *pb.ResolveEntitiesRequ
 			continue
 		}
 
+		// If it is resolved to multiple DC entities, each resolved entity has an equal probability.
 		probability := float64(1.0 / len(reconEntities.GetEntities()))
 
 		resolvedEntity := &pb.ResolveEntitiesResponse_ResolvedEntity{
@@ -135,6 +141,17 @@ func (s *Server) ResolveEntities(ctx context.Context, in *pb.ResolveEntitiesRequ
 		}
 
 		res.ResolvedEntities = append(res.ResolvedEntities, resolvedEntity)
+	}
+
+	// Add entities that are not resolved as empty result.
+	for sourceID, _ := range sourceIDs {
+		if _, ok := reconEntityStore[sourceID]; ok { // Resolved.
+			continue
+		}
+		res.ResolvedEntities = append(res.ResolvedEntities,
+			&pb.ResolveEntitiesResponse_ResolvedEntity{
+				SourceId: sourceID,
+			})
 	}
 
 	return res, nil
