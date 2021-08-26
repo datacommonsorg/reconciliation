@@ -1,11 +1,14 @@
 {
   "comparisons": [
     {
-      "sourceIds": [
-        "aaa",
-        "bbb"
-      ],
-      "probability": 0.67
+      "sourceIdOne": "aId/PlaceA",
+      "sourceIdTwo": "bId/PlaceB",
+      "probability": 0.5
+    },
+    {
+      "sourceIdOne": "cId/PlaceC",
+      "sourceIdTwo": "dId/PlaceD",
+      "probability": 0
     }
   ]
 }

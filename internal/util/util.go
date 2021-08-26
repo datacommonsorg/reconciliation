@@ -20,9 +20,12 @@ import (
 	"bytes"
 	"compress/gzip"
 	"encoding/base64"
+	"fmt"
 	"io/ioutil"
 
 	pb "github.com/datacommonsorg/reconciliation/internal/proto"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 const (
@@ -34,6 +37,22 @@ const (
 
 	// BtBatchQuerySize is the size of BigTable batch query.
 	BtBatchQuerySize = 1000
+)
+
+var (
+	// RankedIDProps is a preferred list.
+	// The props ranked higher are preferred over those ranked lower for resolving.
+	RankedIDProps = []string{
+		"dcid",
+		"geoId",
+		"isoCode",
+		"nutsCode",
+		"wikidataId",
+		"geoNamesId",
+		"istatId",
+		"austrianMunicipalityKey",
+		"indianCensusAreaCode2011",
+	}
 )
 
 // UnzipAndDecode decompresses the given contents using gzip and decodes it from base64.
@@ -68,4 +87,41 @@ func GetPropVal(node *pb.McfGraph_PropertyValues, prop string) string {
 		return ""
 	}
 	return typedValues[0].GetValue()
+}
+
+// Get {ID prop, ID val} from EntitySubGraph.
+func IDsFromEntitySubGraph(entity *pb.EntitySubGraph) (map[string]string, error) {
+	sourceID := entity.GetSourceId()
+	result := map[string]string{}
+
+	switch t := entity.GraphRepresentation.(type) {
+	case *pb.EntitySubGraph_SubGraph:
+		node, ok := (entity.GetSubGraph().GetNodes())[sourceID]
+		if !ok {
+			return nil, status.Errorf(codes.Internal, "Node not found for %s", sourceID)
+		}
+		for _, idProp := range RankedIDProps {
+			idVal := GetPropVal(node, idProp)
+			if idVal == "" {
+				continue
+			}
+			result[idProp] = idVal
+		}
+	case *pb.EntitySubGraph_EntityIds:
+		idStore := map[string]string{} // Map: ID prop -> ID val.
+		for _, id := range entity.GetEntityIds().GetIds() {
+			idStore[id.GetProp()] = id.GetVal()
+		}
+		for _, idProp := range RankedIDProps {
+			idVal, ok := idStore[idProp]
+			if !ok {
+				continue
+			}
+			result[idProp] = idVal
+		}
+	default:
+		return nil, fmt.Errorf("Entity.GraphRepresentation has unexpected type %T", t)
+	}
+
+	return result, nil
 }

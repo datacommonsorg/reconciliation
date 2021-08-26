@@ -1,3 +1,17 @@
+// Copyright 2021 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 package server
 
 import (
@@ -13,22 +27,6 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 )
 
-var (
-	// This is a preferred list.
-	// The props ranked higher are preferred over those ranked lower for resolving.
-	rankedIDProps = []string{
-		"dcid",
-		"geoId",
-		"isoCode",
-		"nutsCode",
-		"wikidataId",
-		"geoNamesId",
-		"istatId",
-		"austrianMunicipalityKey",
-		"indianCensusAreaCode2011",
-	}
-)
-
 // ResolveEntities implements API for ReconServer.ResolveEntities.
 func (s *Server) ResolveEntities(ctx context.Context, in *pb.ResolveEntitiesRequest) (
 	*pb.ResolveEntitiesResponse, error) {
@@ -38,44 +36,18 @@ func (s *Server) ResolveEntities(ctx context.Context, in *pb.ResolveEntitiesRequ
 
 	// Collect to-be-resolved IDs to rowList and idKeyToSourceID.
 	for _, entity := range in.GetEntities() {
-		sourceID := entity.GetSourceId()
-
-		// Try to resolve all the supported IDs
-		// For the resolved ones, only rely on the one ranked higher.
-		switch t := entity.GraphRepresentation.(type) {
-		case *pb.EntitySubGraph_SubGraph:
-			node, ok := (entity.GetSubGraph().GetNodes())[sourceID]
-			if !ok {
-				continue
-			}
-			for _, idProp := range rankedIDProps {
-				idVal := util.GetPropVal(node, idProp)
-				if idVal == "" {
-					continue
-				}
-				idKey := fmt.Sprintf("%s^%s", idProp, idVal)
-				rowList = append(rowList, fmt.Sprintf("%s%s", util.BtReconIDMapPrefix, idKey))
-				idKeyToSourceIDs[idKey] = append(idKeyToSourceIDs[idKey], sourceID)
-			}
-		case *pb.EntitySubGraph_EntityIds:
-			idStore := map[string]string{} // Map: ID prop -> ID val.
-			for _, id := range entity.GetEntityIds().GetIds() {
-				idStore[id.GetProp()] = id.GetVal()
-			}
-			for _, idProp := range rankedIDProps {
-				idVal, ok := idStore[idProp]
-				if !ok {
-					continue
-				}
-				idKey := fmt.Sprintf("%s^%s", idProp, idVal)
-				rowList = append(rowList, fmt.Sprintf("%s%s", util.BtReconIDMapPrefix, idKey))
-				idKeyToSourceIDs[idKey] = append(idKeyToSourceIDs[idKey], sourceID)
-			}
-		default:
-			return nil, fmt.Errorf("Entity.GraphRepresentation has unexpected type %T", t)
+		ids, err := util.IDsFromEntitySubGraph(entity)
+		if err != nil {
+			return nil, status.Errorf(codes.Internal, "IDsFromEntitySubGraph() = %s", err)
 		}
 
+		sourceID := entity.GetSourceId()
 		sourceIDs[sourceID] = struct{}{}
+		for idProp, idVal := range ids {
+			idKey := fmt.Sprintf("%s^%s", idProp, idVal)
+			rowList = append(rowList, fmt.Sprintf("%s%s", util.BtReconIDMapPrefix, idKey))
+			idKeyToSourceIDs[idKey] = append(idKeyToSourceIDs[idKey], sourceID)
+		}
 	}
 
 	// Read ReconIdMap cache.
@@ -103,7 +75,6 @@ func (s *Server) ResolveEntities(ctx context.Context, in *pb.ResolveEntitiesRequ
 		if reconEntities == nil {
 			continue
 		}
-
 		sourceIDs, ok := idKeyToSourceIDs[idKey]
 		if !ok {
 			continue
@@ -129,7 +100,7 @@ func (s *Server) ResolveEntities(ctx context.Context, in *pb.ResolveEntitiesRequ
 	res := &pb.ResolveEntitiesResponse{}
 	for sourceId, idProp2ReconEntities := range reconEntityStore {
 		var reconEntities *pb.ReconEntities
-		for _, idProp := range rankedIDProps {
+		for _, idProp := range util.RankedIDProps {
 			if val, ok := idProp2ReconEntities[idProp]; ok {
 				reconEntities = val
 				break

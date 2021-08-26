@@ -22,6 +22,7 @@ import (
 
 	pb "github.com/datacommonsorg/reconciliation/internal/proto"
 	"github.com/google/go-cmp/cmp"
+	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/testing/protocmp"
 )
 
@@ -40,9 +41,99 @@ func TestCompareEntities(t *testing.T) {
 		req        *pb.CompareEntitiesRequest
 		goldenFile string
 	}{
-		// TODO(spaceenter): Add real test case.
 		{
-			&pb.CompareEntitiesRequest{},
+			&pb.CompareEntitiesRequest{
+				EntityPairs: []*pb.EntityPair{
+					{
+						EntityOne: &pb.EntitySubGraph{
+							SourceId: "aId/PlaceA",
+							GraphRepresentation: &pb.EntitySubGraph_EntityIds{
+								EntityIds: &pb.EntityIds{
+									Ids: []*pb.IdWithProperty{
+										{
+											Prop: "aId",
+											Val:  "PlaceA",
+										},
+										{
+											Prop: "geoId",
+											Val:  "0102",
+										},
+										{
+											Prop: "wikidataId",
+											Val:  "Q123",
+										},
+									},
+								},
+							},
+						},
+						EntityTwo: &pb.EntitySubGraph{
+							SourceId: "bId/PlaceB",
+							GraphRepresentation: &pb.EntitySubGraph_EntityIds{
+								EntityIds: &pb.EntityIds{
+									Ids: []*pb.IdWithProperty{
+										{
+											Prop: "bId",
+											Val:  "PlaceB",
+										},
+										{
+											Prop: "geoId",
+											Val:  "0103",
+										},
+										{
+											Prop: "wikidataId",
+											Val:  "Q123",
+										},
+									},
+								},
+							},
+						},
+					},
+					{
+						EntityOne: &pb.EntitySubGraph{
+							SourceId: "cId/PlaceC",
+							GraphRepresentation: &pb.EntitySubGraph_SubGraph{
+								SubGraph: &pb.McfGraph{
+									Nodes: map[string]*pb.McfGraph_PropertyValues{
+										"cId/PlaceC": {
+											Pvs: map[string]*pb.McfGraph_Values{
+												"geoId": {
+													TypedValues: []*pb.McfGraph_TypedValue{
+														{
+															Type:  pb.ValueType_TEXT.Enum(),
+															Value: proto.String("03933"),
+														},
+													},
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+						EntityTwo: &pb.EntitySubGraph{
+							SourceId: "dId/PlaceD",
+							GraphRepresentation: &pb.EntitySubGraph_SubGraph{
+								SubGraph: &pb.McfGraph{
+									Nodes: map[string]*pb.McfGraph_PropertyValues{
+										"dId/PlaceD": {
+											Pvs: map[string]*pb.McfGraph_Values{
+												"wikidataId": {
+													TypedValues: []*pb.McfGraph_TypedValue{
+														{
+															Type:  pb.ValueType_TEXT.Enum(),
+															Value: proto.String("Q345"),
+														},
+													},
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
 			"result.json",
 		},
 	} {

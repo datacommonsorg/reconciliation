@@ -134,6 +134,10 @@ func TestResolveEntities(t *testing.T) {
 							EntityIds: &pb.EntityIds{
 								Ids: []*pb.IdWithProperty{
 									{
+										Prop: "newId",
+										Val:  "SunnyvaleId",
+									},
+									{
 										Prop: "geoId",
 										Val:  "0677000",
 									},

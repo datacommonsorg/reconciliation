@@ -51,9 +51,9 @@ message CompareEntitiesRequest {
 
 message CompareEntitiesResponse {
   message Comparison {
-    // Must have two source_ids, one for each entity.
-    repeated string source_ids = 1;
-    double probability = 2;
+    string source_id_one = 1;
+    string source_id_two = 2;
+    optional double probability = 3;
   }
   repeated Comparison comparisons = 1;
 }
