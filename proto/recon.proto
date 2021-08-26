@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-syntax = "proto3";
+syntax = "proto2";
 
 // Use relative go package so the generated file is in the current folder.
 option go_package = "./proto";
@@ -22,8 +22,8 @@ import "google/api/annotations.proto";
 import "Mcf.proto";
 
 message IdWithProperty {
-  string prop = 1;
-  string val = 2;
+  optional string prop = 1;
+  optional string val = 2;
 }
 
 message EntityIds {
@@ -33,7 +33,7 @@ message EntityIds {
 // An entity is represented by a subgraph, which contains itself and its neighbors.
 message EntitySubGraph {
   // REQUIRED: source_id must be a key within `sub_graph.nodes`, or one of the `ids`.
-  string source_id = 1;
+  optional string source_id = 1;
   oneof graph_representation {
     McfGraph sub_graph = 2;
     EntityIds entity_ids = 3;
@@ -41,8 +41,8 @@ message EntitySubGraph {
 }
 
 message EntityPair {
-  EntitySubGraph entity_one = 1;
-  EntitySubGraph entity_two = 2;
+  optional EntitySubGraph entity_one = 1;
+  optional EntitySubGraph entity_two = 2;
 }
 
 message CompareEntitiesRequest {
@@ -51,8 +51,8 @@ message CompareEntitiesRequest {
 
 message CompareEntitiesResponse {
   message Comparison {
-    string source_id_one = 1;
-    string source_id_two = 2;
+    optional string source_id_one = 1;
+    optional string source_id_two = 2;
     optional double probability = 3;
   }
   repeated Comparison comparisons = 1;
@@ -67,10 +67,10 @@ message ResolveEntitiesRequest {
 message ResolveEntitiesResponse {
   message ResolvedId {
     repeated IdWithProperty ids = 1;
-    double probability = 2;
+    optional double probability = 2;
   }
   message ResolvedEntity {
-    string source_id = 1;
+    optional string source_id = 1;
     repeated ResolvedId resolved_ids = 2;
   }
   repeated ResolvedEntity resolved_entities = 1;

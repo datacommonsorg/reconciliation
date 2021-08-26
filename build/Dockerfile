@@ -51,7 +51,6 @@ RUN protoc \
   --go_out=internal \
   --go-grpc_out=internal \
   --go-grpc_opt=requireUnimplementedServers=false \
-  --experimental_allow_proto3_optional \
   proto/*.proto
 
 

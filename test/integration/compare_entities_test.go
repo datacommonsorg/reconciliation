@@ -46,42 +46,42 @@ func TestCompareEntities(t *testing.T) {
 				EntityPairs: []*pb.EntityPair{
 					{
 						EntityOne: &pb.EntitySubGraph{
-							SourceId: "aId/PlaceA",
+							SourceId: proto.String("aId/PlaceA"),
 							GraphRepresentation: &pb.EntitySubGraph_EntityIds{
 								EntityIds: &pb.EntityIds{
 									Ids: []*pb.IdWithProperty{
 										{
-											Prop: "aId",
-											Val:  "PlaceA",
+											Prop: proto.String("aId"),
+											Val:  proto.String("PlaceA"),
 										},
 										{
-											Prop: "geoId",
-											Val:  "0102",
+											Prop: proto.String("geoId"),
+											Val:  proto.String("0102"),
 										},
 										{
-											Prop: "wikidataId",
-											Val:  "Q123",
+											Prop: proto.String("wikidataId"),
+											Val:  proto.String("Q123"),
 										},
 									},
 								},
 							},
 						},
 						EntityTwo: &pb.EntitySubGraph{
-							SourceId: "bId/PlaceB",
+							SourceId: proto.String("bId/PlaceB"),
 							GraphRepresentation: &pb.EntitySubGraph_EntityIds{
 								EntityIds: &pb.EntityIds{
 									Ids: []*pb.IdWithProperty{
 										{
-											Prop: "bId",
-											Val:  "PlaceB",
+											Prop: proto.String("bId"),
+											Val:  proto.String("PlaceB"),
 										},
 										{
-											Prop: "geoId",
-											Val:  "0103",
+											Prop: proto.String("geoId"),
+											Val:  proto.String("0103"),
 										},
 										{
-											Prop: "wikidataId",
-											Val:  "Q123",
+											Prop: proto.String("wikidataId"),
+											Val:  proto.String("Q123"),
 										},
 									},
 								},
@@ -90,7 +90,7 @@ func TestCompareEntities(t *testing.T) {
 					},
 					{
 						EntityOne: &pb.EntitySubGraph{
-							SourceId: "cId/PlaceC",
+							SourceId: proto.String("cId/PlaceC"),
 							GraphRepresentation: &pb.EntitySubGraph_SubGraph{
 								SubGraph: &pb.McfGraph{
 									Nodes: map[string]*pb.McfGraph_PropertyValues{
@@ -111,7 +111,7 @@ func TestCompareEntities(t *testing.T) {
 							},
 						},
 						EntityTwo: &pb.EntitySubGraph{
-							SourceId: "dId/PlaceD",
+							SourceId: proto.String("dId/PlaceD"),
 							GraphRepresentation: &pb.EntitySubGraph_SubGraph{
 								SubGraph: &pb.McfGraph{
 									Nodes: map[string]*pb.McfGraph_PropertyValues{

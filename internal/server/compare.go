@@ -58,8 +58,8 @@ func (s *Server) CompareEntities(ctx context.Context, in *pb.CompareEntitiesRequ
 			probability = float64(sharedIDPropAndValCnt) / float64(sharedIDPropCnt)
 		}
 		res.Comparisons = append(res.Comparisons, &pb.CompareEntitiesResponse_Comparison{
-			SourceIdOne: entity1.GetSourceId(),
-			SourceIdTwo: entity2.GetSourceId(),
+			SourceIdOne: proto.String(entity1.GetSourceId()),
+			SourceIdTwo: proto.String(entity2.GetSourceId()),
 			Probability: proto.Float64(probability),
 		})
 	}

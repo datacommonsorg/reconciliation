@@ -25,6 +25,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/encoding/protojson"
+	"google.golang.org/protobuf/proto"
 )
 
 // ResolveEntities implements API for ReconServer.ResolveEntities.
@@ -114,18 +115,18 @@ func (s *Server) ResolveEntities(ctx context.Context, in *pb.ResolveEntitiesRequ
 		probability := float64(1.0 / len(reconEntities.GetEntities()))
 
 		resolvedEntity := &pb.ResolveEntitiesResponse_ResolvedEntity{
-			SourceId: sourceId,
+			SourceId: proto.String(sourceId),
 		}
 
 		for _, entity := range reconEntities.GetEntities() {
 			resolvedId := &pb.ResolveEntitiesResponse_ResolvedId{
-				Probability: probability,
+				Probability: proto.Float64(probability),
 			}
 			for _, id := range entity.GetIds() {
 				resolvedId.Ids = append(resolvedId.Ids,
 					&pb.IdWithProperty{
-						Prop: id.GetProp(),
-						Val:  id.GetVal(),
+						Prop: proto.String(id.GetProp()),
+						Val:  proto.String(id.GetVal()),
 					})
 			}
 			resolvedEntity.ResolvedIds = append(resolvedEntity.ResolvedIds, resolvedId)
@@ -141,7 +142,7 @@ func (s *Server) ResolveEntities(ctx context.Context, in *pb.ResolveEntitiesRequ
 		}
 		res.ResolvedEntities = append(res.ResolvedEntities,
 			&pb.ResolveEntitiesResponse_ResolvedEntity{
-				SourceId: sourceID,
+				SourceId: proto.String(sourceID),
 			})
 	}
 

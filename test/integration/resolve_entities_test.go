@@ -46,7 +46,7 @@ func TestResolveEntities(t *testing.T) {
 				Entities: []*pb.EntitySubGraph{
 					// BySubGraph: An entity resolved by wikidataId.
 					{
-						SourceId: "newId/SantaClaraCountyId",
+						SourceId: proto.String("newId/SantaClaraCountyId"),
 						GraphRepresentation: &pb.EntitySubGraph_SubGraph{
 							SubGraph: &pb.McfGraph{
 								Nodes: map[string]*pb.McfGraph_PropertyValues{
@@ -76,7 +76,7 @@ func TestResolveEntities(t *testing.T) {
 					},
 					// BySubGraph: A new entity that cannot be resolved to a DC entity.
 					{
-						SourceId: "newId/MarsPlanetId",
+						SourceId: proto.String("newId/MarsPlanetId"),
 						GraphRepresentation: &pb.EntitySubGraph_SubGraph{
 							SubGraph: &pb.McfGraph{
 								Nodes: map[string]*pb.McfGraph_PropertyValues{
@@ -98,7 +98,7 @@ func TestResolveEntities(t *testing.T) {
 					},
 					// BySubGraph: An entity with conflicting IDs: isoCode is used for resolving.
 					{
-						SourceId: "newId/VietnamId",
+						SourceId: proto.String("newId/VietnamId"),
 						GraphRepresentation: &pb.EntitySubGraph_SubGraph{
 							SubGraph: &pb.McfGraph{
 								Nodes: map[string]*pb.McfGraph_PropertyValues{
@@ -129,22 +129,22 @@ func TestResolveEntities(t *testing.T) {
 					},
 					// ByEntityIds: An entity with conflicting IDs: geoId is used for resolving.
 					{
-						SourceId: "newId/SunnyvaleId",
+						SourceId: proto.String("newId/SunnyvaleId"),
 						GraphRepresentation: &pb.EntitySubGraph_EntityIds{
 							EntityIds: &pb.EntityIds{
 								Ids: []*pb.IdWithProperty{
 									{
-										Prop: "newId",
-										Val:  "SunnyvaleId",
+										Prop: proto.String("newId"),
+										Val:  proto.String("SunnyvaleId"),
 									},
 									{
-										Prop: "geoId",
-										Val:  "0677000",
+										Prop: proto.String("geoId"),
+										Val:  proto.String("0677000"),
 									},
 									{
-										Prop: "wikidataId",
+										Prop: proto.String("wikidataId"),
 										// Wrong and conflicting wikidataId.
-										Val: "Q110739",
+										Val: proto.String("Q110739"),
 									},
 								},
 							},
