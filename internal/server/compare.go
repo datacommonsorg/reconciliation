@@ -28,14 +28,14 @@ func (s *Server) CompareEntities(ctx context.Context, in *pb.CompareEntitiesRequ
 	res := &pb.CompareEntitiesResponse{}
 
 	for _, entityPair := range in.GetEntityPairs() {
-		entity1 := entityPair.GetEntityOne()
-		entity2 := entityPair.GetEntityTwo()
+		entitySubGraph1 := entityPair.GetEntityOne()
+		entitySubGraph2 := entityPair.GetEntityTwo()
 
-		ids1, err := util.IDsFromEntitySubGraph(entity1)
+		ids1, err := util.IDsFromEntitySubGraph(entitySubGraph1)
 		if err != nil {
 			return nil, err
 		}
-		ids2, err := util.IDsFromEntitySubGraph(entity2)
+		ids2, err := util.IDsFromEntitySubGraph(entitySubGraph2)
 		if err != nil {
 			return nil, err
 		}
@@ -53,13 +53,16 @@ func (s *Server) CompareEntities(ctx context.Context, in *pb.CompareEntitiesRequ
 
 		var probability float64
 		if sharedIDPropCnt == 0 {
+			// If the two entites don't have any shared ID prop, we regard them as not the same entity.
 			probability = 0
 		} else {
+			// For example, if entity1 has {id1=a, id2=b}, entity2 has {id1=a, id2=c, id3=d}, then
+			// sharedIDPropCnt = 2, sharedIDPropAndValCnt = 1, then probability = 0.5.
 			probability = float64(sharedIDPropAndValCnt) / float64(sharedIDPropCnt)
 		}
 		res.Comparisons = append(res.Comparisons, &pb.CompareEntitiesResponse_Comparison{
-			SourceIdOne: proto.String(entity1.GetSourceId()),
-			SourceIdTwo: proto.String(entity2.GetSourceId()),
+			SourceIdOne: proto.String(entitySubGraph1.GetSourceId()),
+			SourceIdTwo: proto.String(entitySubGraph2.GetSourceId()),
 			Probability: proto.Float64(probability),
 		})
 	}

@@ -99,7 +99,7 @@ func (s *Server) ResolveEntities(ctx context.Context, in *pb.ResolveEntitiesRequ
 
 	// Assemble response.
 	res := &pb.ResolveEntitiesResponse{}
-	for sourceId, idProp2ReconEntities := range reconEntityStore {
+	for sourceID, idProp2ReconEntities := range reconEntityStore {
 		var reconEntities *pb.ReconEntities
 		for _, idProp := range util.RankedIDProps {
 			if val, ok := idProp2ReconEntities[idProp]; ok {
@@ -115,7 +115,7 @@ func (s *Server) ResolveEntities(ctx context.Context, in *pb.ResolveEntitiesRequ
 		probability := float64(1.0 / len(reconEntities.GetEntities()))
 
 		resolvedEntity := &pb.ResolveEntitiesResponse_ResolvedEntity{
-			SourceId: proto.String(sourceId),
+			SourceId: proto.String(sourceID),
 		}
 
 		for _, entity := range reconEntities.GetEntities() {
