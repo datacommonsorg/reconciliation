@@ -177,19 +177,15 @@ func buildS2Loops(loops [][][]float64) ([]*s2.Loop, error) {
 		if i == 0 {
 			// The first ring of a polygon is a shell, it should be normalized to counter-clockwise.
 			//
-			// This step checks that the planar polygon loop follows the "right-hand rule"
+			// This step ensures that the planar polygon loop follows the "right-hand rule"
 			// and reverses the orientation when that is not the case. This is specified by
 			// RFC 7946 GeoJSON spec (https://tools.ietf.org/html/rfc7946), but is commonly
 			// disregarded. Since orientation is easy to deduce on the plane, we assume the
 			// obvious orientation is intended. We reverse orientation to ensure that all
-			// loops follow the right-hand rule. This  corresponds to S2's "interior-on-the-
-			// left rule", and allows us to create these polygon as oriented S2 polygons
-			// (see S2Polygon::InitOriented).
+			// loops follow the right-hand rule. This corresponds to S2's "interior-on-the-
+			// left rule", and allows us to create these polygon as oriented S2 polygons.
 			//
-			// To determine the orientation of the polygon, we simply calculate the sign
-			// of the angle at a vertex on the convex hull of the polygon loop. See
-			// https://en.wikipedia.org/wiki/Curve_orientation. If that fails, we compute
-			// the signed area.
+			// Also see https://en.wikipedia.org/wiki/Curve_orientation.
 			s2Loop.Normalize()
 		}
 		res = append(res, s2Loop)
