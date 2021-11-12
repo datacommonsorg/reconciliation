@@ -40,7 +40,7 @@ var generateGolden bool
 
 func init() {
 	flag.BoolVar(
-		&generateGolden, "generate_golden", false, "generate golden files")
+		&generateGolden, "generate_golden", true, "generate golden files")
 }
 
 // This test runs against staging bt dataset.

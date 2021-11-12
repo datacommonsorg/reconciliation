@@ -45,6 +45,13 @@ message EntityPair {
   EntitySubGraph entity_two = 2;
 }
 
+message PlaceCoordinate {
+  double latitude = 1;
+  double longitude = 2;
+  // This field can be empty if it's part of the request message.
+  repeated string place_ids = 3;
+} 
+
 message CompareEntitiesRequest {
   repeated EntityPair entity_pairs = 1;
 }
@@ -76,6 +83,14 @@ message ResolveEntitiesResponse {
   repeated ResolvedEntity resolved_entities = 1;
 }
 
+message ResolveCoordinatesRequest {
+  repeated PlaceCoordinate coordinates = 1;
+}
+
+message ResolveCoordinatesResponse {
+  repeated PlaceCoordinate coordinates = 1;
+}
+
 service Recon {
   // Compare two entities to determine if they are the same entity.
   rpc CompareEntities(CompareEntitiesRequest)
@@ -94,4 +109,13 @@ service Recon {
       body: "*"
     }; 
   }
+
+   // Resolve a list of places, given their latitude and longitude coordinates.
+   rpc ResolveCoordinates(ResolveCoordinatesRequest) 
+   returns(ResolveCoordinatesResponse) {
+     option (google.api.http) = {
+       post: "/coordinate/resolve"
+       body: "*"
+     }; 
+   } 
 }

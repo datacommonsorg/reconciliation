@@ -25,7 +25,7 @@ import (
 	"google.golang.org/protobuf/testing/protocmp"
 )
 
-func TestCompareEntities(t *testing.T) {
+func TestResolveCoordinates(t *testing.T) {
 	t.Parallel()
 	ctx := context.Background()
 	client, err := setup()
@@ -34,21 +34,31 @@ func TestCompareEntities(t *testing.T) {
 	}
 	_, filename, _, _ := runtime.Caller(0)
 	goldenPath := path.Join(
-		path.Dir(filename), "golden_response/compare_entities")
+		path.Dir(filename), "golden_response/resolve_coordinates")
 
 	for _, c := range []struct {
-		req        *pb.CompareEntitiesRequest
+		req        *pb.ResolveCoordinatesRequest
 		goldenFile string
 	}{
-		// TODO(spaceenter): Add real test case.
 		{
-			&pb.CompareEntitiesRequest{},
+			&pb.ResolveCoordinatesRequest{
+				Coordinates: []*pb.PlaceCoordinate{
+					{
+						Latitude:  37.42,
+						Longitude: -122.08,
+					},
+					{
+						Latitude:  32.41,
+						Longitude: -102.11,
+					},
+				},
+			},
 			"result.json",
 		},
 	} {
-		resp, err := client.CompareEntities(ctx, c.req)
+		resp, err := client.ResolveCoordinates(ctx, c.req)
 		if err != nil {
-			t.Errorf("could not CompareEntities: %s", err)
+			t.Errorf("could not ResolveCoordinates: %s", err)
 			continue
 		}
 
@@ -57,13 +67,22 @@ func TestCompareEntities(t *testing.T) {
 			continue
 		}
 
-		var expected pb.CompareEntitiesResponse
+		var expected pb.ResolveCoordinatesResponse
 		if err = readJSON(goldenPath, c.goldenFile, &expected); err != nil {
 			t.Errorf("Can not Unmarshal golden file")
 			continue
 		}
 
-		if diff := cmp.Diff(resp, &expected, protocmp.Transform()); diff != "" {
+		cmpOpts := cmp.Options{
+			protocmp.Transform(),
+			protocmp.SortRepeated(func(a, b *pb.PlaceCoordinate) bool {
+				if a.GetLatitude() == b.GetLatitude() {
+					return a.GetLongitude() > b.GetLongitude()
+				}
+				return a.GetLatitude() > b.GetLatitude()
+			}),
+		}
+		if diff := cmp.Diff(resp, &expected, cmpOpts); diff != "" {
 			t.Errorf("payload got diff: %v", diff)
 			continue
 		}

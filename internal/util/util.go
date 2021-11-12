@@ -29,6 +29,12 @@ const (
 	// BtReconIDMapPrefix for ID mapping for ID-based recon. The key excludes DCID.
 	BtReconIDMapPrefix = "d/5/"
 
+	// BtCoordinateReconPrefix for coordinate recon.
+	BtCoordinateReconPrefix = "d/b/"
+
+	// BtOutPropValPrefix for out prop val.
+	BtOutPropValPrefix = "d/m/"
+
 	// BtFamily is the key for the row.
 	BtFamily = "csv"
 

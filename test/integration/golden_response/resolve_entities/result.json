@@ -1,24 +1,6 @@
 {
   "resolvedEntities": [
     {
-      "sourceId": "newId/SunnyvaleId",
-      "resolvedIds": [
-        {
-          "ids": [
-            {
-              "prop": "wikidataId",
-              "val": "Q208459"
-            },
-            {
-              "prop": "dcid",
-              "val": "geoId/0677000"
-            }
-          ],
-          "probability": 1
-        }
-      ]
-    },
-    {
       "sourceId": "newId/VietnamId",
       "resolvedIds": [
         {
@@ -26,6 +8,10 @@
             {
               "prop": "wikidataId",
               "val": "Q881"
+            },
+            {
+              "prop": "placeId",
+              "val": "ChIJXx5qc016FTERvmL-4smwO7A"
             },
             {
               "prop": "dcid",
@@ -42,12 +28,38 @@
         {
           "ids": [
             {
+              "prop": "placeId",
+              "val": "ChIJd_Y0eVIvkIARuQyDN0F1LBA"
+            },
+            {
               "prop": "geoId",
               "val": "06085"
             },
             {
               "prop": "dcid",
               "val": "geoId/06085"
+            }
+          ],
+          "probability": 1
+        }
+      ]
+    },
+    {
+      "sourceId": "newId/SunnyvaleId",
+      "resolvedIds": [
+        {
+          "ids": [
+            {
+              "prop": "wikidataId",
+              "val": "Q208459"
+            },
+            {
+              "prop": "placeId",
+              "val": "ChIJO13QqUW2j4ARosN83Sb7jXY"
+            },
+            {
+              "prop": "dcid",
+              "val": "geoId/0677000"
             }
           ],
           "probability": 1

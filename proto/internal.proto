@@ -32,3 +32,29 @@ message ReconEntities {
   }
   repeated Entity entities = 1;
 }
+
+// A list of candidate places that a coordinate might be contained in.
+message CoordinateRecon {
+  message Place {
+    // The DCIDs of the places.
+    string dcid = 1;
+    // If the rectangle is fully contained in the place.
+    bool full = 2;
+  }
+  repeated Place places = 1;
+}
+
+// Basic info for an entity (subject or object).
+message EntityInfo {
+  string name = 1;
+  repeated string types = 2;
+  string dcid = 3;
+  string provenance_id = 4;
+  string value = 5;  // Only for object value.
+}
+
+// Basic info for a collection of entities.
+message EntityInfoCollection {
+  repeated EntityInfo entities = 1;
+  int64 total_count = 2;  // Before potential truncation.
+}

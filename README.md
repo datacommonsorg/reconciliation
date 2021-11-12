@@ -61,6 +61,36 @@ Example curl command (entity described by IDs):
 curl -X POST https://autopush.recon.datacommons.org/entity/resolve -d '{"entities":{"source_id":"newId/SantaClaraCountyId","entity_ids":{"ids":{"prop":"geoId","val":"06085"}}}}'
 ```
 
+## Generate Protobuf Libraries
+
+Install command line tools: `protoc`, `protoc-gen-go`, `protoc-gen-go-grpc`. Then run the following command in root directory:
+
+```bash
+protoc \
+--proto_path=proto \
+--go_out=internal \
+--go-grpc_out=internal \
+--go-grpc_opt=require_unimplemented_servers=false \
+proto/*.proto
+```
+
+## Test
+
+Firstly, ensure appropriate GCP credentials:
+
+```bash
+gcloud auth login
+gcloud auth application-default login
+```
+
+Then, run all unit tests and integration tests from the root directory:
+
+```bash
+go test ./...
+```
+
+To update golden files for the integration tests, use the `generate_golden` flag in `./test/integration/setup.go`.
+
 ## Support
 
 For general questions or issues about tool development, please open an issue
