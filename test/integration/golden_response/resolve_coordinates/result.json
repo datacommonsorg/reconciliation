@@ -1,9 +1,7 @@
 {
-  "coordinates": [
+  "placeCoordinates": [
     {
-      "latitude": 37.42,
-      "longitude": -122.08,
-      "placeIds": [
+      "placeDcids": [
         "zip/94043",
         "geoId/sch0626310",
         "geoId/sch0626280",
@@ -15,9 +13,7 @@
       ]
     },
     {
-      "latitude": 32.41,
-      "longitude": -102.11,
-      "placeIds": [
+      "placeDcids": [
         "geoId/sch4825790",
         "geoId/48317950100",
         "geoId/4831793835",

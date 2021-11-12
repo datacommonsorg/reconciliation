@@ -18,6 +18,8 @@ const (
 	geoJsonPredicate string  = "geoJsonCoordinates"
 )
 
+// TODO(Spaceenter): Also add place types to the results.
+
 // ResolveCoordinates implements API for ReconServer.ResolveCoordinates.
 func (s *Server) ResolveCoordinates(ctx context.Context, in *pb.ResolveCoordinatesRequest) (
 	*pb.ResolveCoordinatesResponse, error) {
@@ -103,9 +105,12 @@ func (s *Server) ResolveCoordinates(ctx context.Context, in *pb.ResolveCoordinat
 		if !ok {
 			continue
 		}
+
+		placeCoordinates := &pb.ResolveCoordinatesResponse_PlaceCoordinate{}
 		for _, place := range recon.(*pb.CoordinateRecon).GetPlaces() {
 			if place.GetFull() {
-				co.PlaceIds = append(co.PlaceIds, place.GetDcid())
+				placeCoordinates.PlaceDcids = append(placeCoordinates.PlaceDcids,
+					place.GetDcid())
 			} else { // Not fully cover the tile.
 				geoJson, ok := geoJsonMap[place.GetDcid()]
 				if !ok {
@@ -117,22 +122,23 @@ func (s *Server) ResolveCoordinates(ctx context.Context, in *pb.ResolveCoordinat
 					return res, err
 				}
 				if contained {
-					co.PlaceIds = append(co.PlaceIds, place.GetDcid())
+					placeCoordinates.PlaceDcids = append(placeCoordinates.PlaceDcids,
+						place.GetDcid())
 				}
 			}
 		}
 
-		res.Coordinates = append(res.Coordinates, co)
+		res.PlaceCoordinates = append(res.PlaceCoordinates, placeCoordinates)
 	}
 
 	return res, nil
 }
 
-func coordinateKey(c *pb.PlaceCoordinate) string {
+func coordinateKey(c *pb.ResolveCoordinatesRequest_Coordinate) string {
 	return fmt.Sprintf("%f^%f", c.GetLatitude(), c.GetLongitude())
 }
 
-func normalizedCoordinateKey(c *pb.PlaceCoordinate) string {
+func normalizedCoordinateKey(c *pb.ResolveCoordinatesRequest_Coordinate) string {
 	// Normalize to South-West of the grid points.
 	lat := float64(int((c.GetLatitude()+90.0)/gridSize))*gridSize - 90
 	lng := float64(int((c.GetLongitude()+180.0)/gridSize))*gridSize - 180

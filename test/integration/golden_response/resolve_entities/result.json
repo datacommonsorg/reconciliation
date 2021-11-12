@@ -1,21 +1,21 @@
 {
   "resolvedEntities": [
     {
-      "sourceId": "newId/VietnamId",
+      "sourceId": "newId/SunnyvaleId",
       "resolvedIds": [
         {
           "ids": [
             {
               "prop": "wikidataId",
-              "val": "Q881"
+              "val": "Q208459"
             },
             {
               "prop": "placeId",
-              "val": "ChIJXx5qc016FTERvmL-4smwO7A"
+              "val": "ChIJO13QqUW2j4ARosN83Sb7jXY"
             },
             {
               "prop": "dcid",
-              "val": "country/VNM"
+              "val": "geoId/0677000"
             }
           ],
           "probability": 1
@@ -45,21 +45,21 @@
       ]
     },
     {
-      "sourceId": "newId/SunnyvaleId",
+      "sourceId": "newId/VietnamId",
       "resolvedIds": [
         {
           "ids": [
             {
               "prop": "wikidataId",
-              "val": "Q208459"
+              "val": "Q881"
             },
             {
               "prop": "placeId",
-              "val": "ChIJO13QqUW2j4ARosN83Sb7jXY"
+              "val": "ChIJXx5qc016FTERvmL-4smwO7A"
             },
             {
               "prop": "dcid",
-              "val": "geoId/0677000"
+              "val": "country/VNM"
             }
           ],
           "probability": 1

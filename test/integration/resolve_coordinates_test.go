@@ -42,7 +42,7 @@ func TestResolveCoordinates(t *testing.T) {
 	}{
 		{
 			&pb.ResolveCoordinatesRequest{
-				Coordinates: []*pb.PlaceCoordinate{
+				Coordinates: []*pb.ResolveCoordinatesRequest_Coordinate{
 					{
 						Latitude:  37.42,
 						Longitude: -122.08,
@@ -75,12 +75,13 @@ func TestResolveCoordinates(t *testing.T) {
 
 		cmpOpts := cmp.Options{
 			protocmp.Transform(),
-			protocmp.SortRepeated(func(a, b *pb.PlaceCoordinate) bool {
-				if a.GetLatitude() == b.GetLatitude() {
-					return a.GetLongitude() > b.GetLongitude()
-				}
-				return a.GetLatitude() > b.GetLatitude()
-			}),
+			protocmp.SortRepeated(
+				func(a, b *pb.ResolveCoordinatesResponse_PlaceCoordinate) bool {
+					if a.GetLatitude() == b.GetLatitude() {
+						return a.GetLongitude() > b.GetLongitude()
+					}
+					return a.GetLatitude() > b.GetLatitude()
+				}),
 		}
 		if diff := cmp.Diff(resp, &expected, cmpOpts); diff != "" {
 			t.Errorf("payload got diff: %v", diff)

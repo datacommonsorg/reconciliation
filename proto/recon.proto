@@ -45,13 +45,6 @@ message EntityPair {
   EntitySubGraph entity_two = 2;
 }
 
-message PlaceCoordinate {
-  double latitude = 1;
-  double longitude = 2;
-  // This field can be empty if it's part of the request message.
-  repeated string place_ids = 3;
-} 
-
 message CompareEntitiesRequest {
   repeated EntityPair entity_pairs = 1;
 }
@@ -84,11 +77,20 @@ message ResolveEntitiesResponse {
 }
 
 message ResolveCoordinatesRequest {
-  repeated PlaceCoordinate coordinates = 1;
+  message Coordinate {
+    double latitude = 1;
+    double longitude = 2;
+  }
+  repeated Coordinate coordinates = 1;
 }
 
 message ResolveCoordinatesResponse {
-  repeated PlaceCoordinate coordinates = 1;
+  message PlaceCoordinate {
+    double latitude = 1;
+    double longitude = 2;
+    repeated string place_dcids = 3;
+  } 
+  repeated PlaceCoordinate place_coordinates = 1;
 }
 
 service Recon {
