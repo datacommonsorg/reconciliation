@@ -93,6 +93,20 @@ message ResolveCoordinatesResponse {
   repeated PlaceCoordinate place_coordinates = 1;
 }
 
+message ResolveIdsRequest {
+  string in_prop = 1;
+  string out_prop = 2;
+  repeated string ids = 3;
+}
+
+message ResolveIdsResponse {
+  message Entity {
+    string in_id = 1;
+    repeated string out_ids = 2;
+  }
+  repeated Entity entities = 1;
+}
+
 service Recon {
   // Compare two entities to determine if they are the same entity.
   rpc CompareEntities(CompareEntitiesRequest)
@@ -112,12 +126,21 @@ service Recon {
     }; 
   }
 
-   // Resolve a list of places, given their latitude and longitude coordinates.
-   rpc ResolveCoordinates(ResolveCoordinatesRequest) 
-   returns(ResolveCoordinatesResponse) {
-     option (google.api.http) = {
-       post: "/coordinate/resolve"
-       body: "*"
-     }; 
-   } 
+  // Resolve a list of places, given their latitude and longitude coordinates.
+  rpc ResolveCoordinates(ResolveCoordinatesRequest) 
+  returns(ResolveCoordinatesResponse) {
+    option (google.api.http) = {
+      post: "/coordinate/resolve"
+      body: "*"
+    }; 
+  } 
+
+  // Resolve a list of IDs, given the input prop and output prop.
+  rpc ResolveIds(ResolveIdsRequest) 
+  returns(ResolveIdsResponse) {
+    option (google.api.http) = {
+      post: "/id/resolve"
+      body: "*"
+    }; 
+  } 
 }

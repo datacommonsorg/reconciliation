@@ -24,6 +24,8 @@ type ReconClient interface {
 	ResolveEntities(ctx context.Context, in *ResolveEntitiesRequest, opts ...grpc.CallOption) (*ResolveEntitiesResponse, error)
 	// Resolve a list of places, given their latitude and longitude coordinates.
 	ResolveCoordinates(ctx context.Context, in *ResolveCoordinatesRequest, opts ...grpc.CallOption) (*ResolveCoordinatesResponse, error)
+	// Resolve a list of IDs, given the input prop and output prop.
+	ResolveIds(ctx context.Context, in *ResolveIdsRequest, opts ...grpc.CallOption) (*ResolveIdsResponse, error)
 }
 
 type reconClient struct {
@@ -61,6 +63,15 @@ func (c *reconClient) ResolveCoordinates(ctx context.Context, in *ResolveCoordin
 	return out, nil
 }
 
+func (c *reconClient) ResolveIds(ctx context.Context, in *ResolveIdsRequest, opts ...grpc.CallOption) (*ResolveIdsResponse, error) {
+	out := new(ResolveIdsResponse)
+	err := c.cc.Invoke(ctx, "/datacommons.Recon/ResolveIds", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ReconServer is the server API for Recon service.
 // All implementations should embed UnimplementedReconServer
 // for forward compatibility
@@ -71,6 +82,8 @@ type ReconServer interface {
 	ResolveEntities(context.Context, *ResolveEntitiesRequest) (*ResolveEntitiesResponse, error)
 	// Resolve a list of places, given their latitude and longitude coordinates.
 	ResolveCoordinates(context.Context, *ResolveCoordinatesRequest) (*ResolveCoordinatesResponse, error)
+	// Resolve a list of IDs, given the input prop and output prop.
+	ResolveIds(context.Context, *ResolveIdsRequest) (*ResolveIdsResponse, error)
 }
 
 // UnimplementedReconServer should be embedded to have forward compatible implementations.
@@ -85,6 +98,9 @@ func (UnimplementedReconServer) ResolveEntities(context.Context, *ResolveEntitie
 }
 func (UnimplementedReconServer) ResolveCoordinates(context.Context, *ResolveCoordinatesRequest) (*ResolveCoordinatesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ResolveCoordinates not implemented")
+}
+func (UnimplementedReconServer) ResolveIds(context.Context, *ResolveIdsRequest) (*ResolveIdsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ResolveIds not implemented")
 }
 
 // UnsafeReconServer may be embedded to opt out of forward compatibility for this service.
@@ -152,6 +168,24 @@ func _Recon_ResolveCoordinates_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Recon_ResolveIds_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ResolveIdsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReconServer).ResolveIds(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/datacommons.Recon/ResolveIds",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReconServer).ResolveIds(ctx, req.(*ResolveIdsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Recon_ServiceDesc is the grpc.ServiceDesc for Recon service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -170,6 +204,10 @@ var Recon_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ResolveCoordinates",
 			Handler:    _Recon_ResolveCoordinates_Handler,
+		},
+		{
+			MethodName: "ResolveIds",
+			Handler:    _Recon_ResolveIds_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

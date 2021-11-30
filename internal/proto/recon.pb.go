@@ -573,6 +573,116 @@ func (x *ResolveCoordinatesResponse) GetPlaceCoordinates() []*ResolveCoordinates
 	return nil
 }
 
+type ResolveIdsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	InProp  string   `protobuf:"bytes,1,opt,name=in_prop,json=inProp,proto3" json:"in_prop,omitempty"`
+	OutProp string   `protobuf:"bytes,2,opt,name=out_prop,json=outProp,proto3" json:"out_prop,omitempty"`
+	Ids     []string `protobuf:"bytes,3,rep,name=ids,proto3" json:"ids,omitempty"`
+}
+
+func (x *ResolveIdsRequest) Reset() {
+	*x = ResolveIdsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_recon_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ResolveIdsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ResolveIdsRequest) ProtoMessage() {}
+
+func (x *ResolveIdsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_recon_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ResolveIdsRequest.ProtoReflect.Descriptor instead.
+func (*ResolveIdsRequest) Descriptor() ([]byte, []int) {
+	return file_recon_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *ResolveIdsRequest) GetInProp() string {
+	if x != nil {
+		return x.InProp
+	}
+	return ""
+}
+
+func (x *ResolveIdsRequest) GetOutProp() string {
+	if x != nil {
+		return x.OutProp
+	}
+	return ""
+}
+
+func (x *ResolveIdsRequest) GetIds() []string {
+	if x != nil {
+		return x.Ids
+	}
+	return nil
+}
+
+type ResolveIdsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Entities []*ResolveIdsResponse_Entity `protobuf:"bytes,1,rep,name=entities,proto3" json:"entities,omitempty"`
+}
+
+func (x *ResolveIdsResponse) Reset() {
+	*x = ResolveIdsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_recon_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ResolveIdsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ResolveIdsResponse) ProtoMessage() {}
+
+func (x *ResolveIdsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_recon_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ResolveIdsResponse.ProtoReflect.Descriptor instead.
+func (*ResolveIdsResponse) Descriptor() ([]byte, []int) {
+	return file_recon_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *ResolveIdsResponse) GetEntities() []*ResolveIdsResponse_Entity {
+	if x != nil {
+		return x.Entities
+	}
+	return nil
+}
+
 type CompareEntitiesResponse_Comparison struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -586,7 +696,7 @@ type CompareEntitiesResponse_Comparison struct {
 func (x *CompareEntitiesResponse_Comparison) Reset() {
 	*x = CompareEntitiesResponse_Comparison{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_recon_proto_msgTypes[10]
+		mi := &file_recon_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -599,7 +709,7 @@ func (x *CompareEntitiesResponse_Comparison) String() string {
 func (*CompareEntitiesResponse_Comparison) ProtoMessage() {}
 
 func (x *CompareEntitiesResponse_Comparison) ProtoReflect() protoreflect.Message {
-	mi := &file_recon_proto_msgTypes[10]
+	mi := &file_recon_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -641,7 +751,7 @@ type ResolveEntitiesResponse_ResolvedId struct {
 func (x *ResolveEntitiesResponse_ResolvedId) Reset() {
 	*x = ResolveEntitiesResponse_ResolvedId{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_recon_proto_msgTypes[11]
+		mi := &file_recon_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -654,7 +764,7 @@ func (x *ResolveEntitiesResponse_ResolvedId) String() string {
 func (*ResolveEntitiesResponse_ResolvedId) ProtoMessage() {}
 
 func (x *ResolveEntitiesResponse_ResolvedId) ProtoReflect() protoreflect.Message {
-	mi := &file_recon_proto_msgTypes[11]
+	mi := &file_recon_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -696,7 +806,7 @@ type ResolveEntitiesResponse_ResolvedEntity struct {
 func (x *ResolveEntitiesResponse_ResolvedEntity) Reset() {
 	*x = ResolveEntitiesResponse_ResolvedEntity{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_recon_proto_msgTypes[12]
+		mi := &file_recon_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -709,7 +819,7 @@ func (x *ResolveEntitiesResponse_ResolvedEntity) String() string {
 func (*ResolveEntitiesResponse_ResolvedEntity) ProtoMessage() {}
 
 func (x *ResolveEntitiesResponse_ResolvedEntity) ProtoReflect() protoreflect.Message {
-	mi := &file_recon_proto_msgTypes[12]
+	mi := &file_recon_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -751,7 +861,7 @@ type ResolveCoordinatesRequest_Coordinate struct {
 func (x *ResolveCoordinatesRequest_Coordinate) Reset() {
 	*x = ResolveCoordinatesRequest_Coordinate{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_recon_proto_msgTypes[13]
+		mi := &file_recon_proto_msgTypes[15]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -764,7 +874,7 @@ func (x *ResolveCoordinatesRequest_Coordinate) String() string {
 func (*ResolveCoordinatesRequest_Coordinate) ProtoMessage() {}
 
 func (x *ResolveCoordinatesRequest_Coordinate) ProtoReflect() protoreflect.Message {
-	mi := &file_recon_proto_msgTypes[13]
+	mi := &file_recon_proto_msgTypes[15]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -807,7 +917,7 @@ type ResolveCoordinatesResponse_PlaceCoordinate struct {
 func (x *ResolveCoordinatesResponse_PlaceCoordinate) Reset() {
 	*x = ResolveCoordinatesResponse_PlaceCoordinate{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_recon_proto_msgTypes[14]
+		mi := &file_recon_proto_msgTypes[16]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -820,7 +930,7 @@ func (x *ResolveCoordinatesResponse_PlaceCoordinate) String() string {
 func (*ResolveCoordinatesResponse_PlaceCoordinate) ProtoMessage() {}
 
 func (x *ResolveCoordinatesResponse_PlaceCoordinate) ProtoReflect() protoreflect.Message {
-	mi := &file_recon_proto_msgTypes[14]
+	mi := &file_recon_proto_msgTypes[16]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -853,6 +963,61 @@ func (x *ResolveCoordinatesResponse_PlaceCoordinate) GetLongitude() float64 {
 func (x *ResolveCoordinatesResponse_PlaceCoordinate) GetPlaceDcids() []string {
 	if x != nil {
 		return x.PlaceDcids
+	}
+	return nil
+}
+
+type ResolveIdsResponse_Entity struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	InId   string   `protobuf:"bytes,1,opt,name=in_id,json=inId,proto3" json:"in_id,omitempty"`
+	OutIds []string `protobuf:"bytes,2,rep,name=out_ids,json=outIds,proto3" json:"out_ids,omitempty"`
+}
+
+func (x *ResolveIdsResponse_Entity) Reset() {
+	*x = ResolveIdsResponse_Entity{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_recon_proto_msgTypes[17]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ResolveIdsResponse_Entity) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ResolveIdsResponse_Entity) ProtoMessage() {}
+
+func (x *ResolveIdsResponse_Entity) ProtoReflect() protoreflect.Message {
+	mi := &file_recon_proto_msgTypes[17]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ResolveIdsResponse_Entity.ProtoReflect.Descriptor instead.
+func (*ResolveIdsResponse_Entity) Descriptor() ([]byte, []int) {
+	return file_recon_proto_rawDescGZIP(), []int{11, 0}
+}
+
+func (x *ResolveIdsResponse_Entity) GetInId() string {
+	if x != nil {
+		return x.InId
+	}
+	return ""
+}
+
+func (x *ResolveIdsResponse_Entity) GetOutIds() []string {
+	if x != nil {
+		return x.OutIds
 	}
 	return nil
 }
@@ -965,33 +1130,54 @@ var file_recon_proto_rawDesc = []byte{
 	0x1c, 0x0a, 0x09, 0x6c, 0x6f, 0x6e, 0x67, 0x69, 0x74, 0x75, 0x64, 0x65, 0x18, 0x02, 0x20, 0x01,
 	0x28, 0x01, 0x52, 0x09, 0x6c, 0x6f, 0x6e, 0x67, 0x69, 0x74, 0x75, 0x64, 0x65, 0x12, 0x1f, 0x0a,
 	0x0b, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x5f, 0x64, 0x63, 0x69, 0x64, 0x73, 0x18, 0x03, 0x20, 0x03,
-	0x28, 0x09, 0x52, 0x0a, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x44, 0x63, 0x69, 0x64, 0x73, 0x32, 0x83,
-	0x03, 0x0a, 0x05, 0x52, 0x65, 0x63, 0x6f, 0x6e, 0x12, 0x78, 0x0a, 0x0f, 0x43, 0x6f, 0x6d, 0x70,
-	0x61, 0x72, 0x65, 0x45, 0x6e, 0x74, 0x69, 0x74, 0x69, 0x65, 0x73, 0x12, 0x23, 0x2e, 0x64, 0x61,
-	0x74, 0x61, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x73, 0x2e, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x72,
-	0x65, 0x45, 0x6e, 0x74, 0x69, 0x74, 0x69, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x1a, 0x24, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x73, 0x2e, 0x43,
-	0x6f, 0x6d, 0x70, 0x61, 0x72, 0x65, 0x45, 0x6e, 0x74, 0x69, 0x74, 0x69, 0x65, 0x73, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1a, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x14, 0x22, 0x0f,
-	0x2f, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2f, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x72, 0x65, 0x3a,
-	0x01, 0x2a, 0x12, 0x78, 0x0a, 0x0f, 0x52, 0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x45, 0x6e, 0x74,
-	0x69, 0x74, 0x69, 0x65, 0x73, 0x12, 0x23, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x63, 0x6f, 0x6d, 0x6d,
-	0x6f, 0x6e, 0x73, 0x2e, 0x52, 0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x45, 0x6e, 0x74, 0x69, 0x74,
-	0x69, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x24, 0x2e, 0x64, 0x61, 0x74,
-	0x61, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x73, 0x2e, 0x52, 0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65,
-	0x45, 0x6e, 0x74, 0x69, 0x74, 0x69, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0x1a, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x14, 0x22, 0x0f, 0x2f, 0x65, 0x6e, 0x74, 0x69, 0x74,
-	0x79, 0x2f, 0x72, 0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x3a, 0x01, 0x2a, 0x12, 0x85, 0x01, 0x0a,
-	0x12, 0x52, 0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x43, 0x6f, 0x6f, 0x72, 0x64, 0x69, 0x6e, 0x61,
-	0x74, 0x65, 0x73, 0x12, 0x26, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e,
-	0x73, 0x2e, 0x52, 0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x43, 0x6f, 0x6f, 0x72, 0x64, 0x69, 0x6e,
-	0x61, 0x74, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x27, 0x2e, 0x64, 0x61,
-	0x74, 0x61, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x73, 0x2e, 0x52, 0x65, 0x73, 0x6f, 0x6c, 0x76,
-	0x65, 0x43, 0x6f, 0x6f, 0x72, 0x64, 0x69, 0x6e, 0x61, 0x74, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1e, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x18, 0x22, 0x13, 0x2f, 0x63,
-	0x6f, 0x6f, 0x72, 0x64, 0x69, 0x6e, 0x61, 0x74, 0x65, 0x2f, 0x72, 0x65, 0x73, 0x6f, 0x6c, 0x76,
-	0x65, 0x3a, 0x01, 0x2a, 0x42, 0x09, 0x5a, 0x07, 0x2e, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62,
-	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x28, 0x09, 0x52, 0x0a, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x44, 0x63, 0x69, 0x64, 0x73, 0x22, 0x59,
+	0x0a, 0x11, 0x52, 0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x49, 0x64, 0x73, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x69, 0x6e, 0x5f, 0x70, 0x72, 0x6f, 0x70, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x69, 0x6e, 0x50, 0x72, 0x6f, 0x70, 0x12, 0x19, 0x0a, 0x08,
+	0x6f, 0x75, 0x74, 0x5f, 0x70, 0x72, 0x6f, 0x70, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07,
+	0x6f, 0x75, 0x74, 0x50, 0x72, 0x6f, 0x70, 0x12, 0x10, 0x0a, 0x03, 0x69, 0x64, 0x73, 0x18, 0x03,
+	0x20, 0x03, 0x28, 0x09, 0x52, 0x03, 0x69, 0x64, 0x73, 0x22, 0x90, 0x01, 0x0a, 0x12, 0x52, 0x65,
+	0x73, 0x6f, 0x6c, 0x76, 0x65, 0x49, 0x64, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x12, 0x42, 0x0a, 0x08, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x69, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03,
+	0x28, 0x0b, 0x32, 0x26, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x73,
+	0x2e, 0x52, 0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x49, 0x64, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x2e, 0x45, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x52, 0x08, 0x65, 0x6e, 0x74, 0x69,
+	0x74, 0x69, 0x65, 0x73, 0x1a, 0x36, 0x0a, 0x06, 0x45, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x12, 0x13,
+	0x0a, 0x05, 0x69, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x69,
+	0x6e, 0x49, 0x64, 0x12, 0x17, 0x0a, 0x07, 0x6f, 0x75, 0x74, 0x5f, 0x69, 0x64, 0x73, 0x18, 0x02,
+	0x20, 0x03, 0x28, 0x09, 0x52, 0x06, 0x6f, 0x75, 0x74, 0x49, 0x64, 0x73, 0x32, 0xea, 0x03, 0x0a,
+	0x05, 0x52, 0x65, 0x63, 0x6f, 0x6e, 0x12, 0x78, 0x0a, 0x0f, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x72,
+	0x65, 0x45, 0x6e, 0x74, 0x69, 0x74, 0x69, 0x65, 0x73, 0x12, 0x23, 0x2e, 0x64, 0x61, 0x74, 0x61,
+	0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x73, 0x2e, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x72, 0x65, 0x45,
+	0x6e, 0x74, 0x69, 0x74, 0x69, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x24,
+	0x2e, 0x64, 0x61, 0x74, 0x61, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x73, 0x2e, 0x43, 0x6f, 0x6d,
+	0x70, 0x61, 0x72, 0x65, 0x45, 0x6e, 0x74, 0x69, 0x74, 0x69, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1a, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x14, 0x22, 0x0f, 0x2f, 0x65,
+	0x6e, 0x74, 0x69, 0x74, 0x79, 0x2f, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x72, 0x65, 0x3a, 0x01, 0x2a,
+	0x12, 0x78, 0x0a, 0x0f, 0x52, 0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x45, 0x6e, 0x74, 0x69, 0x74,
+	0x69, 0x65, 0x73, 0x12, 0x23, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e,
+	0x73, 0x2e, 0x52, 0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x45, 0x6e, 0x74, 0x69, 0x74, 0x69, 0x65,
+	0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x24, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x63,
+	0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x73, 0x2e, 0x52, 0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x45, 0x6e,
+	0x74, 0x69, 0x74, 0x69, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1a,
+	0x82, 0xd3, 0xe4, 0x93, 0x02, 0x14, 0x22, 0x0f, 0x2f, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2f,
+	0x72, 0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x3a, 0x01, 0x2a, 0x12, 0x85, 0x01, 0x0a, 0x12, 0x52,
+	0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x43, 0x6f, 0x6f, 0x72, 0x64, 0x69, 0x6e, 0x61, 0x74, 0x65,
+	0x73, 0x12, 0x26, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x73, 0x2e,
+	0x52, 0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x43, 0x6f, 0x6f, 0x72, 0x64, 0x69, 0x6e, 0x61, 0x74,
+	0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x27, 0x2e, 0x64, 0x61, 0x74, 0x61,
+	0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x73, 0x2e, 0x52, 0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x43,
+	0x6f, 0x6f, 0x72, 0x64, 0x69, 0x6e, 0x61, 0x74, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x22, 0x1e, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x18, 0x22, 0x13, 0x2f, 0x63, 0x6f, 0x6f,
+	0x72, 0x64, 0x69, 0x6e, 0x61, 0x74, 0x65, 0x2f, 0x72, 0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x3a,
+	0x01, 0x2a, 0x12, 0x65, 0x0a, 0x0a, 0x52, 0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x49, 0x64, 0x73,
+	0x12, 0x1e, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x73, 0x2e, 0x52,
+	0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x49, 0x64, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x1f, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x73, 0x2e, 0x52,
+	0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x49, 0x64, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x22, 0x16, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x10, 0x22, 0x0b, 0x2f, 0x69, 0x64, 0x2f, 0x72,
+	0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x3a, 0x01, 0x2a, 0x42, 0x09, 0x5a, 0x07, 0x2e, 0x2f, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1006,7 +1192,7 @@ func file_recon_proto_rawDescGZIP() []byte {
 	return file_recon_proto_rawDescData
 }
 
-var file_recon_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
+var file_recon_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
 var file_recon_proto_goTypes = []interface{}{
 	(*IdWithProperty)(nil),                             // 0: datacommons.IdWithProperty
 	(*EntityIds)(nil),                                  // 1: datacommons.EntityIds
@@ -1018,38 +1204,44 @@ var file_recon_proto_goTypes = []interface{}{
 	(*ResolveEntitiesResponse)(nil),                    // 7: datacommons.ResolveEntitiesResponse
 	(*ResolveCoordinatesRequest)(nil),                  // 8: datacommons.ResolveCoordinatesRequest
 	(*ResolveCoordinatesResponse)(nil),                 // 9: datacommons.ResolveCoordinatesResponse
-	(*CompareEntitiesResponse_Comparison)(nil),         // 10: datacommons.CompareEntitiesResponse.Comparison
-	(*ResolveEntitiesResponse_ResolvedId)(nil),         // 11: datacommons.ResolveEntitiesResponse.ResolvedId
-	(*ResolveEntitiesResponse_ResolvedEntity)(nil),     // 12: datacommons.ResolveEntitiesResponse.ResolvedEntity
-	(*ResolveCoordinatesRequest_Coordinate)(nil),       // 13: datacommons.ResolveCoordinatesRequest.Coordinate
-	(*ResolveCoordinatesResponse_PlaceCoordinate)(nil), // 14: datacommons.ResolveCoordinatesResponse.PlaceCoordinate
-	(*McfGraph)(nil),                                   // 15: datacommons.McfGraph
+	(*ResolveIdsRequest)(nil),                          // 10: datacommons.ResolveIdsRequest
+	(*ResolveIdsResponse)(nil),                         // 11: datacommons.ResolveIdsResponse
+	(*CompareEntitiesResponse_Comparison)(nil),         // 12: datacommons.CompareEntitiesResponse.Comparison
+	(*ResolveEntitiesResponse_ResolvedId)(nil),         // 13: datacommons.ResolveEntitiesResponse.ResolvedId
+	(*ResolveEntitiesResponse_ResolvedEntity)(nil),     // 14: datacommons.ResolveEntitiesResponse.ResolvedEntity
+	(*ResolveCoordinatesRequest_Coordinate)(nil),       // 15: datacommons.ResolveCoordinatesRequest.Coordinate
+	(*ResolveCoordinatesResponse_PlaceCoordinate)(nil), // 16: datacommons.ResolveCoordinatesResponse.PlaceCoordinate
+	(*ResolveIdsResponse_Entity)(nil),                  // 17: datacommons.ResolveIdsResponse.Entity
+	(*McfGraph)(nil),                                   // 18: datacommons.McfGraph
 }
 var file_recon_proto_depIdxs = []int32{
 	0,  // 0: datacommons.EntityIds.ids:type_name -> datacommons.IdWithProperty
-	15, // 1: datacommons.EntitySubGraph.sub_graph:type_name -> datacommons.McfGraph
+	18, // 1: datacommons.EntitySubGraph.sub_graph:type_name -> datacommons.McfGraph
 	1,  // 2: datacommons.EntitySubGraph.entity_ids:type_name -> datacommons.EntityIds
 	2,  // 3: datacommons.EntityPair.entity_one:type_name -> datacommons.EntitySubGraph
 	2,  // 4: datacommons.EntityPair.entity_two:type_name -> datacommons.EntitySubGraph
 	3,  // 5: datacommons.CompareEntitiesRequest.entity_pairs:type_name -> datacommons.EntityPair
-	10, // 6: datacommons.CompareEntitiesResponse.comparisons:type_name -> datacommons.CompareEntitiesResponse.Comparison
+	12, // 6: datacommons.CompareEntitiesResponse.comparisons:type_name -> datacommons.CompareEntitiesResponse.Comparison
 	2,  // 7: datacommons.ResolveEntitiesRequest.entities:type_name -> datacommons.EntitySubGraph
-	12, // 8: datacommons.ResolveEntitiesResponse.resolved_entities:type_name -> datacommons.ResolveEntitiesResponse.ResolvedEntity
-	13, // 9: datacommons.ResolveCoordinatesRequest.coordinates:type_name -> datacommons.ResolveCoordinatesRequest.Coordinate
-	14, // 10: datacommons.ResolveCoordinatesResponse.place_coordinates:type_name -> datacommons.ResolveCoordinatesResponse.PlaceCoordinate
-	0,  // 11: datacommons.ResolveEntitiesResponse.ResolvedId.ids:type_name -> datacommons.IdWithProperty
-	11, // 12: datacommons.ResolveEntitiesResponse.ResolvedEntity.resolved_ids:type_name -> datacommons.ResolveEntitiesResponse.ResolvedId
-	4,  // 13: datacommons.Recon.CompareEntities:input_type -> datacommons.CompareEntitiesRequest
-	6,  // 14: datacommons.Recon.ResolveEntities:input_type -> datacommons.ResolveEntitiesRequest
-	8,  // 15: datacommons.Recon.ResolveCoordinates:input_type -> datacommons.ResolveCoordinatesRequest
-	5,  // 16: datacommons.Recon.CompareEntities:output_type -> datacommons.CompareEntitiesResponse
-	7,  // 17: datacommons.Recon.ResolveEntities:output_type -> datacommons.ResolveEntitiesResponse
-	9,  // 18: datacommons.Recon.ResolveCoordinates:output_type -> datacommons.ResolveCoordinatesResponse
-	16, // [16:19] is the sub-list for method output_type
-	13, // [13:16] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	14, // 8: datacommons.ResolveEntitiesResponse.resolved_entities:type_name -> datacommons.ResolveEntitiesResponse.ResolvedEntity
+	15, // 9: datacommons.ResolveCoordinatesRequest.coordinates:type_name -> datacommons.ResolveCoordinatesRequest.Coordinate
+	16, // 10: datacommons.ResolveCoordinatesResponse.place_coordinates:type_name -> datacommons.ResolveCoordinatesResponse.PlaceCoordinate
+	17, // 11: datacommons.ResolveIdsResponse.entities:type_name -> datacommons.ResolveIdsResponse.Entity
+	0,  // 12: datacommons.ResolveEntitiesResponse.ResolvedId.ids:type_name -> datacommons.IdWithProperty
+	13, // 13: datacommons.ResolveEntitiesResponse.ResolvedEntity.resolved_ids:type_name -> datacommons.ResolveEntitiesResponse.ResolvedId
+	4,  // 14: datacommons.Recon.CompareEntities:input_type -> datacommons.CompareEntitiesRequest
+	6,  // 15: datacommons.Recon.ResolveEntities:input_type -> datacommons.ResolveEntitiesRequest
+	8,  // 16: datacommons.Recon.ResolveCoordinates:input_type -> datacommons.ResolveCoordinatesRequest
+	10, // 17: datacommons.Recon.ResolveIds:input_type -> datacommons.ResolveIdsRequest
+	5,  // 18: datacommons.Recon.CompareEntities:output_type -> datacommons.CompareEntitiesResponse
+	7,  // 19: datacommons.Recon.ResolveEntities:output_type -> datacommons.ResolveEntitiesResponse
+	9,  // 20: datacommons.Recon.ResolveCoordinates:output_type -> datacommons.ResolveCoordinatesResponse
+	11, // 21: datacommons.Recon.ResolveIds:output_type -> datacommons.ResolveIdsResponse
+	18, // [18:22] is the sub-list for method output_type
+	14, // [14:18] is the sub-list for method input_type
+	14, // [14:14] is the sub-list for extension type_name
+	14, // [14:14] is the sub-list for extension extendee
+	0,  // [0:14] is the sub-list for field type_name
 }
 
 func init() { file_recon_proto_init() }
@@ -1180,7 +1372,7 @@ func file_recon_proto_init() {
 			}
 		}
 		file_recon_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CompareEntitiesResponse_Comparison); i {
+			switch v := v.(*ResolveIdsRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1192,7 +1384,7 @@ func file_recon_proto_init() {
 			}
 		}
 		file_recon_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ResolveEntitiesResponse_ResolvedId); i {
+			switch v := v.(*ResolveIdsResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1204,7 +1396,7 @@ func file_recon_proto_init() {
 			}
 		}
 		file_recon_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ResolveEntitiesResponse_ResolvedEntity); i {
+			switch v := v.(*CompareEntitiesResponse_Comparison); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1216,7 +1408,7 @@ func file_recon_proto_init() {
 			}
 		}
 		file_recon_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ResolveCoordinatesRequest_Coordinate); i {
+			switch v := v.(*ResolveEntitiesResponse_ResolvedId); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1228,7 +1420,43 @@ func file_recon_proto_init() {
 			}
 		}
 		file_recon_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ResolveEntitiesResponse_ResolvedEntity); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_recon_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ResolveCoordinatesRequest_Coordinate); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_recon_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ResolveCoordinatesResponse_PlaceCoordinate); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_recon_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ResolveIdsResponse_Entity); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1250,7 +1478,7 @@ func file_recon_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_recon_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   15,
+			NumMessages:   18,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
