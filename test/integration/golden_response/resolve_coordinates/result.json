@@ -1,0 +1,27 @@
+{
+  "placeCoordinates": [
+    {
+      "placeDcids": [
+        "zip/94043",
+        "geoId/sch0626310",
+        "geoId/sch0626280",
+        "geoId/0649670",
+        "geoId/0608592830",
+        "geoId/06085504601",
+        "geoId/06",
+        "country/USA"
+      ]
+    },
+    {
+      "placeDcids": [
+        "geoId/sch4825790",
+        "geoId/48317950100",
+        "geoId/4831793835",
+        "geoId/48317",
+        "geoId/4811",
+        "geoId/48",
+        "country/USA"
+      ]
+    }
+  ]
+}

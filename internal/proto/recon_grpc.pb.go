@@ -11,7 +11,8 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-const _ = grpc.SupportPackageIsVersion6
+// Requires gRPC-Go v1.32.0 or later.
+const _ = grpc.SupportPackageIsVersion7
 
 // ReconClient is the client API for Recon service.
 //
@@ -21,6 +22,8 @@ type ReconClient interface {
 	CompareEntities(ctx context.Context, in *CompareEntitiesRequest, opts ...grpc.CallOption) (*CompareEntitiesResponse, error)
 	// Resolve a list of entities, given their descriptions.
 	ResolveEntities(ctx context.Context, in *ResolveEntitiesRequest, opts ...grpc.CallOption) (*ResolveEntitiesResponse, error)
+	// Resolve a list of places, given their latitude and longitude coordinates.
+	ResolveCoordinates(ctx context.Context, in *ResolveCoordinatesRequest, opts ...grpc.CallOption) (*ResolveCoordinatesResponse, error)
 }
 
 type reconClient struct {
@@ -49,6 +52,15 @@ func (c *reconClient) ResolveEntities(ctx context.Context, in *ResolveEntitiesRe
 	return out, nil
 }
 
+func (c *reconClient) ResolveCoordinates(ctx context.Context, in *ResolveCoordinatesRequest, opts ...grpc.CallOption) (*ResolveCoordinatesResponse, error) {
+	out := new(ResolveCoordinatesResponse)
+	err := c.cc.Invoke(ctx, "/datacommons.Recon/ResolveCoordinates", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ReconServer is the server API for Recon service.
 // All implementations should embed UnimplementedReconServer
 // for forward compatibility
@@ -57,21 +69,33 @@ type ReconServer interface {
 	CompareEntities(context.Context, *CompareEntitiesRequest) (*CompareEntitiesResponse, error)
 	// Resolve a list of entities, given their descriptions.
 	ResolveEntities(context.Context, *ResolveEntitiesRequest) (*ResolveEntitiesResponse, error)
+	// Resolve a list of places, given their latitude and longitude coordinates.
+	ResolveCoordinates(context.Context, *ResolveCoordinatesRequest) (*ResolveCoordinatesResponse, error)
 }
 
 // UnimplementedReconServer should be embedded to have forward compatible implementations.
 type UnimplementedReconServer struct {
 }
 
-func (*UnimplementedReconServer) CompareEntities(context.Context, *CompareEntitiesRequest) (*CompareEntitiesResponse, error) {
+func (UnimplementedReconServer) CompareEntities(context.Context, *CompareEntitiesRequest) (*CompareEntitiesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CompareEntities not implemented")
 }
-func (*UnimplementedReconServer) ResolveEntities(context.Context, *ResolveEntitiesRequest) (*ResolveEntitiesResponse, error) {
+func (UnimplementedReconServer) ResolveEntities(context.Context, *ResolveEntitiesRequest) (*ResolveEntitiesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ResolveEntities not implemented")
 }
+func (UnimplementedReconServer) ResolveCoordinates(context.Context, *ResolveCoordinatesRequest) (*ResolveCoordinatesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ResolveCoordinates not implemented")
+}
 
-func RegisterReconServer(s *grpc.Server, srv ReconServer) {
-	s.RegisterService(&_Recon_serviceDesc, srv)
+// UnsafeReconServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to ReconServer will
+// result in compilation errors.
+type UnsafeReconServer interface {
+	mustEmbedUnimplementedReconServer()
+}
+
+func RegisterReconServer(s grpc.ServiceRegistrar, srv ReconServer) {
+	s.RegisterService(&Recon_ServiceDesc, srv)
 }
 
 func _Recon_CompareEntities_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -110,7 +134,28 @@ func _Recon_ResolveEntities_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
-var _Recon_serviceDesc = grpc.ServiceDesc{
+func _Recon_ResolveCoordinates_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ResolveCoordinatesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReconServer).ResolveCoordinates(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/datacommons.Recon/ResolveCoordinates",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReconServer).ResolveCoordinates(ctx, req.(*ResolveCoordinatesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// Recon_ServiceDesc is the grpc.ServiceDesc for Recon service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var Recon_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "datacommons.Recon",
 	HandlerType: (*ReconServer)(nil),
 	Methods: []grpc.MethodDesc{
@@ -121,6 +166,10 @@ var _Recon_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ResolveEntities",
 			Handler:    _Recon_ResolveEntities_Handler,
+		},
+		{
+			MethodName: "ResolveCoordinates",
+			Handler:    _Recon_ResolveCoordinates_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

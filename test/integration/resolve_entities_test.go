@@ -31,7 +31,7 @@ func TestResolveEntities(t *testing.T) {
 	ctx := context.Background()
 	client, err := setup()
 	if err != nil {
-		t.Fatalf("Failed to set up recon client")
+		t.Fatalf("Failed to set up recon client: %s", err)
 	}
 	_, filename, _, _ := runtime.Caller(0)
 	goldenPath := path.Join(
