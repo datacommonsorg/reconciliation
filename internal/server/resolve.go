@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"fmt"
+	"sort"
 	"strings"
 
 	"cloud.google.com/go/bigtable"
@@ -173,6 +174,11 @@ func (s *Server) ResolveEntities(ctx context.Context, in *pb.ResolveEntitiesRequ
 				SourceId: sourceID,
 			})
 	}
+
+	// Sort to make the result deterministic.
+	sort.Slice(res.ResolvedEntities, func(i, j int) bool {
+		return res.ResolvedEntities[i].GetSourceId() > res.ResolvedEntities[j].GetSourceId()
+	})
 
 	return res, nil
 }
