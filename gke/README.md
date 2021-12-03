@@ -6,7 +6,7 @@ Instructions of the initial setup of the GCP project and GKE clusters for deploy
 
 - [Create a Google Cloud Project](https://cloud.google.com/resource-manager/docs/creating-managing-projects). If working on an existing project, you should have owner/editor role to perform the tasks.
 
-- Install [yq](https://mikefarah.gitbook.io/yq/v/v3.x/). Make sure the version is 3.x
+- Install [yq](https://github.com/mikefarah/yq#install). Make sure the version is 4
 
   ```bash
   yq --version
