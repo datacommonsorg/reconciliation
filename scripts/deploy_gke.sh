@@ -64,7 +64,7 @@ export REGION=$(yq eval '.region' deploy/gke/$ENV.yaml)
 export IP=$(yq eval '.ip' deploy/gke/$ENV.yaml)
 export DOMAIN=$(yq eval '.domain' deploy/gke/$ENV.yaml)
 export API_TITLE=$(yq eval '.api_title' deploy/gke/$ENV.yaml)
-export CLUSTER_NAME=mixer-$REGION
+export CLUSTER_NAME=recon-$REGION
 
 cd $ROOT/deploy/overlays/$ENV
 
