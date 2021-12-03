@@ -1,6 +1,8 @@
 {
   "placeCoordinates": [
     {
+      "latitude": 37.42,
+      "longitude": -122.08,
       "placeDcids": [
         "zip/94043",
         "ipcc_50/37.25_-122.25_USA",
@@ -16,6 +18,8 @@
       ]
     },
     {
+      "latitude": 32.41,
+      "longitude": -102.11,
       "placeDcids": [
         "ipcc_50/32.25_-102.25_USA",
         "geoId/sch4825790",
