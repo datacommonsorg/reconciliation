@@ -61,6 +61,22 @@ Example curl command (entity described by IDs):
 curl -X POST https://autopush.recon.datacommons.org/entity/resolve -d '{"entities":{"source_id":"newId/SantaClaraCountyId","entity_ids":{"ids":{"prop":"geoId","val":"06085"}}}}'
 ```
 
+### ResolveCoordinates
+
+Example curl command: 
+
+```bash
+curl -X POST https://autopush.recon.datacommons.org/coordinate/resolve -d '{"coordinates": [{"latitude":"37.42","longitude":"-122.08"},{"latitude":"32.41","longitude":"-102.11"}]}'
+```
+
+### ResolveIds
+
+Example curl command: 
+
+```bash
+curl -X POST https://autopush.recon.datacommons.org/id/resolve -d '{"in_prop":"wikidataId","out_prop":"dcid","ids":["Q110739","Q30"]}'
+```
+
 ## Generate Protobuf Libraries
 
 Install command line tools: `protoc`, `protoc-gen-go`, `protoc-gen-go-grpc`. Then run the following command in root directory:

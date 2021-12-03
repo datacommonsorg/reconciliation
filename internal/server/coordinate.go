@@ -106,7 +106,10 @@ func (s *Server) ResolveCoordinates(ctx context.Context, in *pb.ResolveCoordinat
 			continue
 		}
 
-		placeCoordinates := &pb.ResolveCoordinatesResponse_PlaceCoordinate{}
+		placeCoordinates := &pb.ResolveCoordinatesResponse_PlaceCoordinate{
+			Latitude:  co.GetLatitude(),
+			Longitude: co.GetLongitude(),
+		}
 		for _, place := range recon.(*pb.CoordinateRecon).GetPlaces() {
 			if place.GetFull() {
 				placeCoordinates.PlaceDcids = append(placeCoordinates.PlaceDcids,
