@@ -27,6 +27,9 @@ var (
 		"istatId",
 		"austrianMunicipalityKey",
 		"indianCensusAreaCode2011",
+		"indianCensusAreaCode2001",
+		"lgdCode",
+		"udiseCode",
 	}
 )
 
